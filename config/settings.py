@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "widget_tweaks",
     "dsfr",
-    "yourApp",
+    "public_website",
 ]
 
 MIDDLEWARE = [
