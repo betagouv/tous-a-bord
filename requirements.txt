@@ -1,0 +1,10 @@
+Django==3.2.16
+django-dsfr==0.11.1
+python-dotenv==0.21.0
+pre-commit==2.20.0
+flake8==5.0.4
+black==22.8.0
+isort==5.10.1
+psycopg2-binary==2.9.5
+django-referrer-policy==1.0
+django-csp==3.7
