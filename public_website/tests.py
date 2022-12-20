@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.urls import resolve
 
-from yourApp import views
+from public_website import views
 
 
 class TestStaticPages(TestCase):
@@ -11,11 +11,11 @@ class TestStaticPages(TestCase):
 
     def test_index_url_calls_right_template(self):
         response = self.client.get("/")
-        self.assertTemplateUsed(response, "yourApp/index.html")
+        self.assertTemplateUsed(response, "public_website/index.html")
 
     def test_index_response_contains_welcome_message(self):
         response = self.client.get("/")
-        self.assertContains(response, "Beta x Django")
+        self.assertContains(response, "Tous à bord !")
 
     def test_a11y_url_calls_correct_view(self):
         match = resolve("/accessibilite/")
@@ -23,7 +23,7 @@ class TestStaticPages(TestCase):
 
     def test_a11y_url_calls_right_template(self):
         response = self.client.get("/accessibilite/")
-        self.assertTemplateUsed(response, "yourApp/accessibility.html")
+        self.assertTemplateUsed(response, "public_website/accessibility.html")
 
     def test_a11y_response_contains_title(self):
         response = self.client.get("/accessibilite/")

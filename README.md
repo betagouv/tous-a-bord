@@ -1,18 +1,12 @@
-# Beta x Django
+# Tous à bord !
 
 ## Introduction
 
-Ce repo est un kit de démarrage pour vos projets en Django 3.2. Il intègre :
-
-- le DSFR
-- des Content Security Policies avec django-csp
-- Pre-commit, pour formatter votre code à chaque commit
-- une ébauche de CI pour vos tests automatiques
-- les paramètres pour se connecter à une base de données PostgreSQL
+L'application web qui soutient le produit "Tous à bord !".
 
 ## Utilisation
 
-### Installation de base
+### Installation locale
 
 Copier les variables d'environnement :
 ```
