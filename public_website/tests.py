@@ -15,7 +15,7 @@ class TestStaticPages(TestCase):
 
     def test_index_response_contains_welcome_message(self):
         response = self.client.get("/")
-        self.assertContains(response, "Beta x Django")
+        self.assertContains(response, "Tous à bord !")
 
     def test_a11y_url_calls_correct_view(self):
         match = resolve("/accessibilite/")
