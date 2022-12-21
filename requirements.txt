@@ -9,3 +9,4 @@ psycopg2-binary==2.9.5
 django-referrer-policy==1.0
 django-csp==3.7
 whitenoise==6.2.0
+dj-database-url==1.2.0
