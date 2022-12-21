@@ -1,2 +1,2 @@
 postdeploy: python manage.py migrate
-web: gunicorn cnr.wsgi --log-file -
+web: gunicorn config.wsgi --log-file -
