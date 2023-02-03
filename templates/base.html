@@ -13,10 +13,9 @@
   {% block title %}
   <title>
     {% if title %}
-      {{ title }} — Design Système de l’État
-    {% else %}
-      Design Système de l’État
+      {{ title }} — 
     {% endif %}
+    Tous à bord ! 
   </title>
   {% endblock title %}
 </head>
@@ -29,7 +28,7 @@
     {% dsfr_theme_modale %}
 
     <div class="fr-container fr-mt-4w fr-mb-6w">
-      {% dsfr_breadcrumb %}
+      <!-- {% dsfr_breadcrumb %} -->
 
       <main id="content" role="main">
         {% block content %}{% endblock content %}
