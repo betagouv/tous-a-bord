@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "widget_tweaks",
     "dsfr",
     "public_website",
+    "django.forms",
 ]
 
 MIDDLEWARE = [
