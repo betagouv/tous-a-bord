@@ -43,3 +43,15 @@ pre-commit run --all-files
 ```bash
 python manage.py test
 ```
+
+### Initialiser la base de données
+
+```bash
+python manage.py migrate
+```
+
+### Lancer le projet en local
+
+```bash
+python manage.py runserver
+```
