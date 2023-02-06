@@ -157,4 +157,4 @@ CSP_DEFAULT_SRC = "'self'"
 CSP_STYLE_SRC = "'self' 'sha256-Eyt3MCqJJqqqUJzUlVq9BLYX+kVGQZVLpJ4toZz4mb8=' 'sha256-d//Lck7pNf/OY9MPfGYaIOTmqjEzvwlSukK3UObI08A='"
 CSP_IMG_SRC = "'self' data:"
 
-REFERRER_POLICY = "no-referrer"
+REFERRER_POLICY = "same-origin"
