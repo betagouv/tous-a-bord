@@ -4,21 +4,14 @@
 
 L'application web qui soutient le produit "Tous à bord !".
 
-## Utilisation
+## Installation
 
-### Installation locale
-
-Copier les variables d'environnement :
-```
-cp .env.example .env
-```
-
-### Installation de PostgreSQL
+### PostgreSQL
 
 Installer PostgreSQL en fonction de votre OS : https://www.postgresql.org/download/
 puis créer une base de données au nom choisi dans DATABASE_NAME de votre fichier .env.
 
-### Installation de pre-commit
+### pre-commit
 
 [Pre-commit](https://pre-commit.com/) permet de linter et formatter votre code avant chaque commit. Par défaut ici, il exécute :
 
@@ -38,20 +31,36 @@ Vous pouvez effectuer un premier passage sur tous les fichiers du repo avec :
 pre-commit run --all-files
 ```
 
-### Exécuter les tests manuellement
+### Installation locale
 
 ```bash
-python manage.py test
-```
+# Copier les variables d'environnement 
+cp .env.example .env
 
-### Initialiser la base de données
+# Initialiser et activez l'environnement Python
+python -m venv venv
+. venv/bin/activate
 
-```bash
+# Installer les packages nécessaires
+pip install -r requirements.txt
+
+# Effectuer les migrations pour initialiser la base de données
 python manage.py migrate
 ```
 
-### Lancer le projet en local
+## Utilisation 
 
+### Lancement du serveur en local
 ```bash
+
+# Si vous n'êtes pas déjà dans l'environnement Python
+. venv/bin/activate
+
+# Lancer le serveur
 python manage.py runserver
+```
+
+### Exécuter les tests manuellement
+```bash
+python manage.py test
 ```
