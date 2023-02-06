@@ -1,9 +1,13 @@
 {% extends "dsfr/header.html" %}
 
+{% block brand %}
+  <a href="/" title="Accueil — {{ SITE_CONFIG.site_title }}">
+    <p class="fr-logo">république<br />française</p>
+  </a>
+{% endblock brand %}
+
 {% block service_title %}
-<a href="/" title="Accueil — {{ SITE_CONFIG.site_title }}">
-    <p class="fr-header__service-title">{{ SITE_CONFIG.site_title }}</p>
-</a>
+    <h3>Tous à bord !</h3>
 {% endblock service_title %}
 
 {% block service_tagline %}{{ SITE_CONFIG.site_tagline }}{% endblock service_tagline %}
@@ -19,17 +23,4 @@
 {# endblock burger_menu #}
 
 {% block main_menu %}
-    <div class="fr-header__menu fr-modal" id="fr-menu-mobile" aria-labelledby="fr-btn-menu-mobile">
-      <div class="fr-container">
-        <button type="button" class="fr-btn--close fr-btn" aria-controls="fr-menu-mobile">Fermer</button>
-        <div class="fr-header__menu-links"></div>
-        <nav role="navigation" class="fr-nav" id="fr-navigation" aria-label="Menu principal">
-          <ul class="fr-nav__list">
-            <li class="fr-nav__item">
-              <a class="fr-nav__link" href="{% url 'index' %}" target="_self">Accueil</a>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </div>
 {% endblock main_menu %}

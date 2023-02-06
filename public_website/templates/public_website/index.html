@@ -2,17 +2,105 @@
 {% load static %}
 {% block content %}
 
-<div class="fr-container fr-my-6w">
+<div class="fr-container fr-mt-6w">
     <div class="fr-grid-row fr-grid-row--gutters">
-        <div class="fr-col-12 fr-col-sm-10 fr-col-offset-sm-1">
+        
+        <div class="fr-col-12">
             <h1 class="fr-display--sm">Tous à bord !</h1>
-            <h2>Profitez-vous des aides auxquelles vous êtes éligibles ?</h2>
+            <h2>Notre mission : automatiser l'attribution des aides liées aux transports</h2>
+        </div>
 
-            <p>Pour lutter contre le non-recours aux aides, Tous à bord ! propose de déplacer la responsabilité de l'attribution ces aides des usager(e)s aux collectivités territoriales. Pour se faire, nous accompagnons les Autorités Organisatrices de la Mobilité (AOM) dans la notification des citoyens éligibles et dans la délivrance des tarifs préférentiels.</p>
-            
-            <p>Tous à bord ! est porté par la Direction Interministérielle du Numérique (DINUM) et la Direction Générale des Infrastructures, des Transports et des Mobilités (DGITM), et dans le cadre du chantier « administration proactive ». Ce projet s'inscrit dans la continuité des travaux portant sur le développement de l'API Tarification sociale et solidaire des transports, pilotés par ETALAB et le GART. Voir <a href=https://beta.gouv.fr/startups/tous.a.bord.html target="_blank">la fiche</a> sur le site de beta.gouv.fr.</p>
+        <div class="fr-col-4">
+            <div class="bordered fr-p-2w">
+                <!-- <a href="https://storyset.com/puzzle">Stop illustrations by Storyset -->
+                <img class="fr-responsive-img" src="{% static 'public_website/Puzzle-pana.svg' %}" alt="">
+                <!-- </a> -->
+            </div>
+        </div>
+
+        <div class="fr-col-8">
+            <p>Vous avez reçu un mail de <strong>Tous à bord</strong> ? Cela signifie que vous êtes éligible à un tarif préférentiel pour votre titre de transports !</p>
+
+            <p>La notion de « <strong>non-recours</strong> » renvoie aux personnes qui ne bénéficient pas des aides auxquelles elles sont éligibles, souvent en raison de non-information, de complexité administrative ou de défiance. Depuis octobre 2022, le gouvernement met en place des stratégies de lutte contre ce non-recours, pour <strong>informer les citoyens sur leur éligibilité et simplifier leurs démarches.</strong></p>
+
+            <p>Ainsi, avec le soutien de vos réseaux de transports locaux, <strong>Tous à bord !</strong> contacte les usagers éligibles à des aides locales liées aux transports, pour les informer et les encourager à bénéficier de ces aides. Nous menons actuellement des expérimentations dans plusieurs endroits en France : <p>
+                <ul>
+                    <li>
+                        Les Hauts-de-France, avec Artois mobilités et TADAO, pour les demandeurs d'emploi
+                    </li>
+                    <li>
+                        Brest, avec la Métropole et l'opérateur bibus, pour les étudiants boursiers
+                    </li>
+                </ul>
+            </p>
         </div>
     </div>
+
+    <h2>Questions fréquentes</h2>
+    <div class="fr-accordions-group">
+    <section class="fr-accordion">
+        <h3 class="fr-accordion__title">
+            <button class="fr-accordion__btn" aria-expanded="false" aria-controls="accordion-114">Qui impulse l’initiative “Tous à bord !” ?</button>
+        </h3>
+        <div class="fr-collapse" id="accordion-114">
+            <p>
+            <strong>Tous à bord !</strong> est une start-up d’Etat portée par la Direction Interministérielle du Numérique (DINUM) et la Direction Générale des Infrastructures, des Transports et des Mobilités (DGITM) dans le cadre du chantier « administration proactive ».
+            </p>
+        </div>
+    </section>
+    <section class="fr-accordion">
+        <h3 class="fr-accordion__title">
+            <button class="fr-accordion__btn" aria-expanded="false" aria-controls="accordion-115">Qu’est-ce que l’administration proactive ?</button>
+        </h3>
+        <div class="fr-collapse" id="accordion-115">
+            <p>Dans une logique de simplification, de lutte contre le non-recours au droit, l’administration souhaite aller au-devant des démarches des citoyens en les informant de manière proactive, voire en leur attribuant automatiquement les aides sociales auxquelles ils sont éligibles.</p>
+        </div>
+    </section>
+    <section class="fr-accordion">
+        <h3 class="fr-accordion__title">
+            <button class="fr-accordion__btn" aria-expanded="false" aria-controls="accordion-116">Qu’est-ce que le non-recours ?</button>
+        </h3>
+        <div class="fr-collapse" id="accordion-116">
+            <p>En droit, la notion de « non-recours » renvoie aux personnes qui ne peuvent pas faire valoir leurs droits en raison de différents obstacles (non-information, complexité administrative, défiance, etc).</p>
+
+            <p>Le taux de non-recours est difficile à estimer, variant entre 30 et 70% en fonction des études, des territoires et des aides.</p>
+        </div>
+    </section>
+    <section class="fr-accordion">
+        <h3 class="fr-accordion__title">
+            <button class="fr-accordion__btn" aria-expanded="false" aria-controls="accordion-117">Je ne me suis pas inscrit·e sur Tous à Bord , pourquoi ai-je reçu un courrier ?</button>
+        </h3>
+        <div class="fr-collapse" id="accordion-117">
+            <p>Les articles 
+                <ul>
+                    <li>
+                        Article L.114-8 du code des relations entre le public et l’administration. 
+                    </li>
+                    <li>
+                        Article 162 de la loi 3DS. “informer les personnes de leurs droits”
+                    </li>
+                </ul>
+            définissent un cadre pour l'administration proactive.
+            </p> 
+        </div>
+    </section>
+    <section class="fr-accordion">
+        <h3 class="fr-accordion__title">
+            <button class="fr-accordion__btn" aria-expanded="false" aria-controls="accordion-118">Je ne souhaite pas être recontacté·e. Ai-je le droit de m’y opposer ?</button>
+        </h3>
+        <div class="fr-collapse" id="accordion-118">
+            <p>Oui. Si vous refusez d’être recontacté, il suffit de nous écrire pour vous opposer à la poursuite du traitement. Si vous avez été contacté par erreur, vous pouvez également faire rectifier l’information qui nous concerne.</p>
+        </div>
+    </section>
+    <section class="fr-accordion">
+        <h3 class="fr-accordion__title">
+            <button class="fr-accordion__btn" aria-expanded="false" aria-controls="accordion-119">Dans le mail que j’ai reçu, les données sont erronées. Comment puis-je les corriger ?</button>
+        </h3>
+        <div class="fr-collapse" id="accordion-119">
+            <p>Si vous avez été contacté par erreur ou si vos données sont erronées, vous pouvez les corriger en envoyant un mail à tousabord@beta.gouv.fr en précisant les données exactes. Nos agent·es transféreront vos informations à l’administration concernée et vos données seront rectifiées dans les plus brefs délais.</p>
+        </div>
+    </section>
+</div>
 </div>
 
 {% endblock content %}
