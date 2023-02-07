@@ -9,10 +9,22 @@
         <div class="fr-col-12">
             <form action="" method="POST">
                 {% csrf_token %}
-                {{ form.as_table }}
-                <input type="submit" value="Submit">
+                
+                <div class="fr-form-group">
+                    <label class="fr-label" for="identifiantPE">{{ form.identifiantPE }}</label>
+                    <input class="fr-input" type="text" id="identifiantPE" name="identifiantPE"
+                        {% if inscription_data.identifiant %}
+                            value="{{ inscription_data.identifiant }}"
+                        {% endif %}
+                        >
+                    <input type="submit" value="Submit">
+                </div>
             </form>
-            <p>Status inscription : {{ inscription_state }}</p>
+            <div>
+                {% for key, value in inscription_data.items %}
+                    <p>{{ key }} : {{ value }}</p>
+                {% endfor %}
+            </div>
         </div>
     </div>
 </div>
