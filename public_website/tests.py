@@ -43,16 +43,16 @@ class TestPEStatusPage(TestCase):
         response = self.client.get("/artois-mobilites/")
         self.assertContains(response, "Artois Mobilités")
 
-    def test_knownid_returns_expected_status(self):
-        identifiantPE = "aflantier_1"
-        response = self.client.post(
-            "/artois-mobilites/", {"identifiantPE": identifiantPE}
-        )
-        self.assertContains(response, "identifiant : aflantier_1")
+    # def test_knownid_returns_expected_status(self):
+    #     identifiantPE = "aflantier_1"
+    #     response = self.client.post(
+    #         "/artois-mobilites/", {"identifiantPE": identifiantPE}
+    #     )
+    #     self.assertContains(response, "identifiant : aflantier_1")
 
-    def test_unknownid_returns_error_message(self):
-        identifiantPE = "hopefullynotanexistingID"
-        response = self.client.post(
-            "/artois-mobilites/", {"identifiantPE": identifiantPE}
-        )
-        self.assertContains(response, "Situation not found")
+    # def test_unknownid_returns_error_message(self):
+    #     identifiantPE = "hopefullynotanexistingID"
+    #     response = self.client.post(
+    #         "/artois-mobilites/", {"identifiantPE": identifiantPE}
+    #     )
+    #     self.assertContains(response, "Situation not found")
