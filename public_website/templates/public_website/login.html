@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+{% if user.is_authenticated %}
+  <p>Current user: {{ user.email }}</p>
+  <form action="{% url 'oidc_logout' %}" method="post">
+    {% csrf_token %}
+    <input type="submit" value="logout">
+  </form>
+{% else %}
+    <form action="{% url 'oidc_authentication_init' %}">
+        <div class="fr-connect-group">
+            <button class="fr-connect" type="submit">
+                <span class="fr-connect__login">S’identifier avec</span>
+                <span class="fr-connect__brand">MonComptePro</span>
+            </button>
+            <p>
+                <a href="https://moncomptepro.beta.gouv.fr/" target="_blank"  rel="noopener" title="Qu'est-ce que MonComptePro ? - nouvelle fenêtre">Qu'est-ce que MonComptePro ?</a>
+            </p>
+        </div> 
+    </form>
+{% endif %}
+
+
+{% endblock content %}

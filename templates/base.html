@@ -5,10 +5,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-
   {% dsfr_css %}
   {% dsfr_favicon %}
-  {% block extra_css %}{% endblock extra_css %}
+  {% block extra_css %}
+    {% comment %} TODO : fix l'icône, apparemment il n'arrive pas à lire le CSS {% endcomment %}
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css" />
+  {% endblock extra_css %}
 
   {% block title %}
   <title>
