@@ -10,19 +10,32 @@
             <form action="" method="POST">
                 {% csrf_token %}
                 
-                <div class="fr-form-group">
-                    <label class="fr-label" for="identifiantPE">{{ form.identifiantPE }}</label>
+                <div class="fr-col-12 fr-col-sm-6">
+                    <label class="fr-label" for="identifiantPE">{{ form.identifiantPE.label }}</label>
                     <input class="fr-input" type="text" id="identifiantPE" name="identifiantPE"
                         {% if inscription_data.identifiant %}
-                            value="{{ inscription_data.identifiant }}"
+                            value="{{ form.data.identifiantPE }}"
                         {% endif %}
                         >
-                    <input type="submit" value="Submit">
+                    <input type="submit" value="Rechercher">
                 </div>
             </form>
-            <div>
+
+            <div class="fr-col-12 fr-mt-4w">
                 {% for key, value in inscription_data.items %}
-                    <p>{{ key }} : {{ value }}</p>
+                    <ul>
+                    {% if key == "adresse" %}
+                        <li><b>{{ key }}</b> :
+                            <ul>
+                                {% for adress_key, adress_value in value.items %}
+                                    <li><b>{{ adress_key }}</b> : {{ adress_value }}</li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li><b>{{ key }}</b> : {{ value }}</li>
+                    {% endif %}
+                    </ul>
                 {% endfor %}
             </div>
         </div>
