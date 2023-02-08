@@ -12,11 +12,7 @@
                 
                 <div class="fr-col-12 fr-col-sm-6">
                     <label class="fr-label" for="identifiantPE">{{ form.identifiantPE.label }}</label>
-                    <input class="fr-input" type="text" id="identifiantPE" name="identifiantPE"
-                        {% if inscription_data.identifiant %}
-                            value="{{ form.data.identifiantPE }}"
-                        {% endif %}
-                        >
+                    <input class="fr-input" type="text" id="identifiantPE" name="identifiantPE" value="{{ form.data.identifiantPE }}">
                     <input type="submit" value="Rechercher">
                 </div>
             </form>
