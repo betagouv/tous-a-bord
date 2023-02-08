@@ -18,6 +18,7 @@ def login_view(request):
 
 def pe_status_view(request):
     inscription_data = None
+    form = InscritPoleEmploi
     APIPART_ENDPOINT = (
         "https://particulier-test.api.gouv.fr/api/v2/situations-pole-emploi"
     )
@@ -34,7 +35,7 @@ def pe_status_view(request):
             inscription_data = response.json()
 
     context = {
-        "form": InscritPoleEmploi,
+        "form": form,
         "inscription_data": inscription_data,
     }
     return render(request, "public_website/pe_status.html", context)
