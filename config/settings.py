@@ -47,6 +47,11 @@ INSTALLED_APPS = [
     "dsfr",
     "public_website",
     "django.forms",
+    'mozilla_django_oidc'
+]
+
+AUTHENTICATION_BACKENDS = [
+    'mozilla_django_oidc.auth.OIDCAuthenticationBackend',
 ]
 
 MIDDLEWARE = [
@@ -158,3 +163,14 @@ CSP_STYLE_SRC = "'self' 'sha256-Eyt3MCqJJqqqUJzUlVq9BLYX+kVGQZVLpJ4toZz4mb8=' 's
 CSP_IMG_SRC = "'self' data:"
 
 REFERRER_POLICY = "same-origin"
+
+# OIDC options
+OIDC_RP_CLIENT_ID = os.environ['OIDC_RP_CLIENT_ID']
+OIDC_RP_CLIENT_SECRET = os.environ['OIDC_RP_CLIENT_SECRET']
+OIDC_OP_AUTHORIZATION_ENDPOINT=os.environ['OIDC_OP_AUTHORIZATION_ENDPOINT']
+OIDC_OP_TOKEN_ENDPOINT=os.environ['OIDC_OP_TOKEN_ENDPOINT']
+OIDC_OP_USER_ENDPOINT=os.environ['OIDC_OP_USER_ENDPOINT']
+OIDC_RP_SIGN_ALGO="RS256"
+OIDC_OP_JWKS_ENDPOINT=os.environ['OIDC_OP_JWKS_ENDPOINT']
+LOGIN_REDIRECT_URL=os.environ['LOGIN_REDIRECT_URL']
+LOGOUT_REDIRECT_URL=os.environ['LOGOUT_REDIRECT_URL']
