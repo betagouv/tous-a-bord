@@ -19,7 +19,7 @@ def login_view(request):
     return render(request, "public_website/login.html", {})
 
 
-@login_required(login_url="/login/")
+@login_required()
 def pe_status_view(request):
     inscription_data = None
     form = InscritPoleEmploi
