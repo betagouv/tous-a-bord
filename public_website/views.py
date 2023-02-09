@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import user_passes_test
 from public_website.decorators import belongs_to_group
 
 from public_website.forms import InscritPoleEmploi
+from public_website.models import APICalls
 
 
 def index_view(request):
@@ -37,6 +38,11 @@ def pe_status_view(request):
                 url=APIPART_ENDPOINT, headers=headers, params=params
             )
             inscription_data = response.json()
+
+            new_call = APICalls.objects.create(
+                user=request.user, url=request.get_full_path(), PEid=identifiantPE
+            )
+            new_call.save()
 
     context = {
         "form": form,
