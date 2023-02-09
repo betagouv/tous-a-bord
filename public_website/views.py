@@ -1,8 +1,9 @@
 import os
 
 import requests
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
+from django.contrib.auth.decorators import user_passes_test
+from public_website.decorators import belongs_to_group
 
 from public_website.forms import InscritPoleEmploi
 
@@ -18,8 +19,7 @@ def accessibility_view(request):
 def login_view(request):
     return render(request, "public_website/login.html", {})
 
-
-@login_required()
+@user_passes_test(belongs_to_group("Artois Mobilités"))
 def pe_status_view(request):
     inscription_data = None
     form = InscritPoleEmploi
