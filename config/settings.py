@@ -161,7 +161,7 @@ X_FRAME_OPTIONS = "DENY"
 
 CSP_DEFAULT_SRC = "'self'"
 CSP_STYLE_SRC = "'self' 'sha256-Eyt3MCqJJqqqUJzUlVq9BLYX+kVGQZVLpJ4toZz4mb8=' 'sha256-d//Lck7pNf/OY9MPfGYaIOTmqjEzvwlSukK3UObI08A='"
-CSP_SCRIPT_SRC = "'self' 'sha256-SPnX34yL3nWR/0KPwCxDGOUw+74YxVXyJBJFPZLVe7Y=' https://stats.beta.gouv.fr/"
+CSP_SCRIPT_SRC = "'self' 'sha256-S224CRpfYnCBAVoljX2SN+CahpmlrffdOD64sprE9aM=' https://stats.beta.gouv.fr/"
 CSP_IMG_SRC = "'self' data:"
 CSP_CONNECT_SRC = "'self' https://stats.beta.gouv.fr"
 
