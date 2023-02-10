@@ -1,5 +1,5 @@
 Django==3.2.17
-django-dsfr==0.11.1
+django-dsfr==0.13.1
 python-dotenv==0.21.0
 pre-commit==2.20.0
 flake8==5.0.4
