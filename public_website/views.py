@@ -1,6 +1,4 @@
-import os
-
-import requests
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.contrib.auth.decorators import user_passes_test
 from public_website.decorators import belongs_to_group
@@ -24,25 +22,19 @@ def login_view(request):
 def pe_status_view(request):
     inscription_data = None
     form = InscritPoleEmploi
-    APIPART_ENDPOINT = (
-        "https://particulier-test.api.gouv.fr/api/v2/situations-pole-emploi"
-    )
 
     if request.method == "POST":
         form = InscritPoleEmploi(request.POST)
         if form.is_valid():
-            identifiantPE = form.cleaned_data["identifiantPE"]
-            params = {"identifiant": identifiantPE}
-            headers = {"X-Api-Key": os.getenv("API_PART_TOKEN")}
-            response = requests.get(
-                url=APIPART_ENDPOINT, headers=headers, params=params
+            call = APICall(
+                user=request.user,
+                queried_id=form.cleaned_data["identifiantPE"],
+                url=request.get_full_path(),
             )
-            inscription_data = response.json()
+            response = call.fetch()
+            call.save()
 
-            new_call = APICall.objects.create(
-                user=request.user, url=request.get_full_path(), PEid=identifiantPE
-            )
-            new_call.save()
+            inscription_data = response.json()
 
     context = {
         "form": form,
