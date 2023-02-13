@@ -19,7 +19,7 @@ def login_view(request):
     return render(request, "public_website/login.html", {})
 
 @user_passes_test(belongs_to_group("Artois Mobilités"))
-def pe_status_view(request):
+def pole_emploi_status_view(request):
     inscription_data = None
     form = InscritPoleEmploi
 
@@ -28,7 +28,7 @@ def pe_status_view(request):
         if form.is_valid():
             call = APICall(
                 user=request.user,
-                queried_id=form.cleaned_data["identifiantPE"],
+                queried_id=form.cleaned_data["identifiant_pole_emploi"],
                 url=request.get_full_path(),
             )
             response = call.fetch()
@@ -40,4 +40,4 @@ def pe_status_view(request):
         "form": form,
         "inscription_data": inscription_data,
     }
-    return render(request, "public_website/pe_status.html", context)
+    return render(request, "public_website/pole_emploi_status.html", context)

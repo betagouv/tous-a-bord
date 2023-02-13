@@ -4,15 +4,15 @@
 
 <div class="fr-container fr-mt-6w">
     <div class="fr-grid-row fr-grid-row--gutters">
-        <h1>Artois Mobilités</h1>
+        <h1>Interface d'interrogation de l'API Pôle Emploi</h1>
 
         <div class="fr-col-12">
             <form action="" method="POST">
                 {% csrf_token %}
                 
                 <div class="fr-col-12 fr-col-sm-6">
-                    <label class="fr-label" for="identifiantPE">{{ form.identifiantPE.label }}</label>
-                    <input class="fr-input" type="text" id="identifiantPE" name="identifiantPE" value="{{ form.data.identifiantPE }}">
+                    <label class="fr-label" for="identifiant_pole_emploi">{{ form.identifiant_pole_emploi.label }}</label>
+                    <input class="fr-input" type="text" id="identifiant_pole_emploi" name="identifiant_pole_emploi" value="{{ form.data.identifiant_pole_emploi }}">
                     <input type="submit" value="Rechercher">
                 </div>
             </form>
@@ -34,6 +34,7 @@
                     </ul>
                 {% endfor %}
             </div>
+
         </div>
     </div>
 </div>

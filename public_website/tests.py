@@ -41,7 +41,7 @@ class TestArtoisMobilitesPage(TestCase):
 
     def test_pestatus_url_calls_correct_view(self):
         match = resolve("/artois-mobilites/")
-        self.assertEqual(match.func, views.pe_status_view)
+        self.assertEqual(match.func, views.pole_emploi_status_view)
 
     def test_reaching_artoismobilites_without_login_returns_redirect(self):
         response = self.client.get("/artois-mobilites/")
@@ -60,18 +60,18 @@ class TestArtoisMobilitesPage(TestCase):
 
     # def test_pestatus_url_calls_right_template(self):
     #     response = self.client.get("/artois-mobilites/")
-    #     self.assertTemplateUsed(response, "public_website/pe_status.html")
+    #     self.assertTemplateUsed(response, "public_website/pole_emploi_status.html")
 
     # def test_knownid_returns_expected_status(self):
-    #     identifiantPE = "aflantier_1"
+    #     identifiant_pole_emploi = "aflantier_1"
     #     response = self.client.post(
-    #         "/artois-mobilites/", {"identifiantPE": identifiantPE}
+    #         "/artois-mobilites/", {"identifiant_pole_emploi": identifiant_pole_emploi}
     #     )
     #     self.assertContains(response, "identifiant : aflantier_1")
 
     # def test_unknownid_returns_error_message(self):
-    #     identifiantPE = "hopefullynotanexistingID"
+    #     identifiant_pole_emploi = "hopefullynotanexistingID"
     #     response = self.client.post(
-    #         "/artois-mobilites/", {"identifiantPE": identifiantPE}
+    #         "/artois-mobilites/", {"identifiant_pole_emploi": identifiant_pole_emploi}
     #     )
     #     self.assertContains(response, "Situation not found")

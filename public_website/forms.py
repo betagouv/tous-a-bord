@@ -2,4 +2,4 @@ from django import forms
 
 
 class InscritPoleEmploi(forms.Form):
-    identifiantPE = forms.CharField(max_length=30, label='Identifiant Pôle Emploi', required=False)
+    identifiant_pole_emploi = forms.CharField(max_length=30, label='Identifiant Pôle Emploi', required=False)
