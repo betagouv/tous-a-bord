@@ -12,15 +12,13 @@ class User(AbstractUser):
 class APICall(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, models.PROTECT, related_name="calls")
-    url = models.CharField(max_length=150, blank=False, null=False)
+    uri = models.CharField(max_length=150, blank=False, null=False)
     queried_id = models.CharField(max_length=150)
 
     def fetch(self):
-        APIPART_ENDPOINT = (
-            "https://particulier-test.api.gouv.fr/api/v2/situations-pole-emploi"
-        )
+        url = os.environ["API_PARTICULIER_URL"] + self.uri
         response = requests.get(
-            url=APIPART_ENDPOINT,
+            url=url,
             headers={"X-Api-Key": os.getenv("API_PART_TOKEN")},
             params={"identifiant": self.queried_id},
         )
