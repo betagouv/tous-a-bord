@@ -27,13 +27,13 @@ def pole_emploi_status_view(request):
         if form.is_valid():
             uri = "/situations-pole-emploi"
             
-            call = APICall(
+            api_call = APICall(
                 user=request.user,
                 queried_id=form.cleaned_data["identifiant_pole_emploi"],
                 uri=uri,
             )
-            response = call.fetch()
-            call.save()
+            response = api_call.fetch()
+            api_call.save()
 
             inscription_data = response.json()
 
