@@ -1,5 +1,5 @@
 import os
-from hashlib import sha256
+from public_website.utils import hash
 
 import requests
 from django.contrib.auth.models import AbstractUser
@@ -15,10 +15,10 @@ class APICall(models.Model):
     user = models.ForeignKey(User, models.PROTECT, related_name="calls")
     uri = models.CharField(max_length=150, blank=False, null=False)
     queried_id = models.CharField(max_length=150)
-    
+
     @property
     def hash_queried_id(self):
-        hashed_queried_id = sha256(self.queried_id.encode('utf-8')).hexdigest()
+        hashed_queried_id = hash(self.queried_id)
         return hashed_queried_id
 
     def fetch(self):
