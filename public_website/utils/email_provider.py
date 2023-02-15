@@ -17,8 +17,7 @@ def send_user_creation_email(user_email:str):
         to=[sib_api_v3_sdk.SendSmtpEmailTo(to_email)]
         sender=sib_api_v3_sdk.SendSmtpEmailSender(name=sender_name, email=sender_email)
         email = sib_api_v3_sdk.SendSmtpEmail(sender=sender, to=to, text_content=text_content, subject=subject)
-        api_response = api_instance.send_transac_email(email)
-        print(api_response)
+        api_instance.send_transac_email(email)
         return True
     except sib_api_v3_sdk.rest.ApiException as e:
         print("Exception when calling ContactsApi->create_contact: %s", e)

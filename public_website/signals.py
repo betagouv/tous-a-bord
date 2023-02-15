@@ -11,4 +11,3 @@ def notify_team_that_user_is_created(
     if not created:
         return
     send_user_creation_email(instance.get_email_field_name())
-    

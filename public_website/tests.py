@@ -40,7 +40,6 @@ class TestArtoisMobilitesPage(TestCase):
         self.testuser = User.objects.create_user(
             username="testuser", email="testuser@beta.fr"
         )
-        print(self.testuser.username)
 
     def test_pestatus_url_calls_correct_view(self):
         match = resolve("/artois-mobilites/")
