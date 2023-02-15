@@ -178,3 +178,6 @@ OIDC_OP_JWKS_ENDPOINT = os.environ["OIDC_OP_JWKS_ENDPOINT"]
 LOGIN_URL = "/login/"
 LOGIN_REDIRECT_URL = "/artois-mobilites/"
 LOGOUT_REDIRECT_URL = "/"
+
+# Send In Blue
+SEND_IN_BLUE_API_KEY=os.environ["SEND_IN_BLUE_API_KEY"]
