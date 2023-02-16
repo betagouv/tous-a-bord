@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.decorators import user_passes_test, login_required
 from public_website.decorators import belongs_to_group
 
 from public_website.forms import InscritPoleEmploiForm, StatutEtudiantBoursierForm
@@ -9,10 +9,12 @@ from public_website.models import APICall
 def index_view(request):
     return render(request, "public_website/index.html", {})
 
+@login_required
+def summary_view(request):
+    return render(request, "public_website/summary.html", {})
 
 def accessibility_view(request):
     return render(request, "public_website/accessibility.html", {})
-
 
 def login_view(request):
     return render(request, "public_website/login.html", {})
