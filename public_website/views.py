@@ -29,7 +29,7 @@ def pole_emploi_status_view(request):
             
             api_call = APICall(
                 user=request.user,
-                queried_id=form.cleaned_data["identifiant_pole_emploi"],
+                params='{"identifiant": "'+ form.cleaned_data["identifiant_pole_emploi"]+ '"}',
                 uri=uri,
             )
             response = api_call.fetch()
@@ -55,7 +55,7 @@ def etudiant_boursier_status_view(request):
             
             api_call = APICall(
                 user=request.user,
-                queried_id=form.cleaned_data["numero_ine"],
+                params='{"ine": "'+ form.cleaned_data["numero_ine"]+ '"}',
                 uri=uri,
             )
             response = api_call.fetch()
