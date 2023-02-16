@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="fr-container fr-mt-6w">
+    <div class="fr-grid-row fr-grid-row--gutters">
+        <h1>Interface d'interrogation de l'API Etudiants Boursiers</h1>
+
+        <div class="fr-col-12">
+            <form action="" method="POST">
+                {% csrf_token %}
+                
+                <div class="fr-col-12 fr-col-sm-6">
+                    <label class="fr-label" for="numero_ine">{{ form.numero_ine.label }}</label>
+                    <input class="fr-input" type="text" id="numero_ine" name="numero_ine" value="{{ form.data.numero_ine }}">
+                    <input type="submit" value="Rechercher">
+                </div>
+            </form>
+
+            <div class="fr-col-12 fr-mt-4w">
+                {% for key, value in inscription_data.items %}
+                    <ul>
+                        <li><b>{{ key }}</b> : {{ value }}</li>
+                    </ul>
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
