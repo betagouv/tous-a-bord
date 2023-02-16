@@ -1,5 +1,5 @@
 import os
-from public_website.utils import hash
+from public_website.utils.hash import hash
 
 import requests
 from django.contrib.auth.models import AbstractUser

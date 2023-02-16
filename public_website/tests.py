@@ -1,6 +1,8 @@
+import factory
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import resolve
+from django.db.models import signals
 
 from public_website import views
 
@@ -32,12 +34,12 @@ class TestStaticPages(TestCase):
 
 
 class TestArtoisMobilitesPage(TestCase):
+    @factory.django.mute_signals(signals.post_save)
     def setUp(self):
         User = get_user_model()
         self.testuser = User.objects.create_user(
             username="testuser", email="testuser@beta.fr"
         )
-        print(self.testuser.username)
 
     def test_pestatus_url_calls_correct_view(self):
         match = resolve("/artois-mobilites/")
