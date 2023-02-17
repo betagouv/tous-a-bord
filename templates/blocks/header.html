@@ -14,7 +14,17 @@
 
 {% block header_tools %}
 <li>
-    <button class="fr-btn--display fr-btn" aria-controls="fr-theme-modal" data-fr-opened="false">Paramètres d'affichage</button>
+    {% if user.is_authenticated %}
+      <form action="{% url 'oidc_logout' %}" method="post">
+        {% csrf_token %}
+        <button class="fr-btn fr-btn--secondary" type="submit">Se déconnecter</button>
+      </form>
+    {% else %}
+      <a class="fr-btn fr-icon-lock-line" href="/login">
+        Se connecter
+      </a>
+    {% endif %}
+
 </li>
 {% endblock header_tools %}
 
