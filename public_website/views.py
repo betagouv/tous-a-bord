@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import user_passes_test, login_required
 from public_website.decorators import belongs_to_group
 
@@ -17,6 +17,8 @@ def accessibility_view(request):
     return render(request, "public_website/accessibility.html", {})
 
 def login_view(request):
+    if request.user.is_authenticated:
+        return redirect("/summary") 
     return render(request, "public_website/login.html", {})
 
 @user_passes_test(belongs_to_group("Artois Mobilités"))
