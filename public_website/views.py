@@ -15,6 +15,9 @@ def services_view(request):
     return render(request, "public_website/services.html", {})
 
 
+def forbidden_view(request):
+    return render(request, "public_website/forbidden.html", {})
+
 def accessibility_view(request):
     return render(request, "public_website/accessibility.html", {})
 
@@ -24,8 +27,7 @@ def login_view(request):
         return redirect("/services")
     return render(request, "public_website/login.html", {})
 
-
-@user_passes_test(belongs_to_group("Artois Mobilités"))
+@user_passes_test(belongs_to_group("Artois Mobilités"), "forbidden")
 def pole_emploi_status_view(request):
     inscription_data = None
     form = InscritPoleEmploiForm
@@ -53,8 +55,7 @@ def pole_emploi_status_view(request):
     }
     return render(request, "public_website/pole_emploi_status.html", context)
 
-
-@user_passes_test(belongs_to_group("Brest Métropole"))
+@user_passes_test(belongs_to_group("Brest Métropole"), "forbidden")
 def etudiant_boursier_status_view(request):
     inscription_data = None
     form = StatutEtudiantBoursierForm

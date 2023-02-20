@@ -11,5 +11,6 @@ urlpatterns = [
         "brest-metropole/", views.etudiant_boursier_status_view, name="brest-metropole"
     ),
     path("login/", views.login_view, name="login"),
+    path("forbidden/", views.forbidden_view, name="forbidden"),
     path("oidc/", include("mozilla_django_oidc.urls")),
 ]
