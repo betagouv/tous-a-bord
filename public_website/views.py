@@ -27,6 +27,7 @@ def login_view(request):
         return redirect("/services")
     return render(request, "public_website/login.html", {})
 
+@login_required
 @user_passes_test(belongs_to_group("Artois Mobilités"), "forbidden")
 def pole_emploi_status_view(request):
     inscription_data = None
@@ -55,6 +56,7 @@ def pole_emploi_status_view(request):
     }
     return render(request, "public_website/pole_emploi_status.html", context)
 
+@login_required
 @user_passes_test(belongs_to_group("Brest Métropole"), "forbidden")
 def etudiant_boursier_status_view(request):
     inscription_data = None
