@@ -5,6 +5,7 @@ from django.urls import resolve
 from django.db.models import signals
 
 from public_website import views
+from public_website.utils import obfuscate
 
 
 class TestStaticPages(TestCase):
@@ -77,3 +78,12 @@ class TestArtoisMobilitesPage(TestCase):
     #         "/artois-mobilites/", {"identifiant_pole_emploi": identifiant_pole_emploi}
     #     )
     #     self.assertContains(response, "Situation not found")
+
+class TestUtils(TestCase):
+    def test_obfuscate_email(self):
+        result_positive = obfuscate.obfuscate_email("benoit.serrano@beta.gouv.fr")
+        self.assertEqual(result_positive, "**************@beta.gouv.fr")
+
+        result_negative = obfuscate.obfuscate_email("benoit.serranobeta.gouv.fr")
+        self.assertEqual(result_negative, "**************************")
+

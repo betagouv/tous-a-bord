@@ -9,7 +9,7 @@ def send_user_creation_email(user_email:str):
     sender_name="Tous à bord"
     to_email="tousabord@beta.gouv.fr"
     subject = "Un nouvel utilisateur a été créé"
-    text_content = "L'utilisateur "+user_email+" vient de se créer un compte sur la plateforme."
+    text_content = "L'utilisateur "+user_email+" vient de se créer un compte sur la plateforme. Vous pouvez retrouver la liste des comptes créés à l'adresse https://tous-a-bord.beta.gouv.fr/admin"
     try:
         api_instance = sib_api_v3_sdk.TransactionalEmailsApi(
             sib_api_v3_sdk.ApiClient(configuration)
