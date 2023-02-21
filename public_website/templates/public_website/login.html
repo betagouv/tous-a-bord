@@ -2,10 +2,23 @@
 {% load static %}
 {% block content %}
 
+{% if messages %}
+<div class="fr-alert fr-alert--error">
+    <h3 class="fr-alert__title">{% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Erreur{% endif %}</h3>
+    <ul>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+
+    </ul>
+</div>
+<br/>
+{% endif %}
+
 <form action="{% url 'oidc_authentication_init' %}">
     <div class="fr-connect-group">
         <button class="fr-connect" type="submit">
-            <span class="fr-connect__login">S’identifier avec</span>
+            <span class="fr-connect__login">S'identifier avec</span>
             <span class="fr-connect__brand">MonComptePro</span>
         </button>
         <p>

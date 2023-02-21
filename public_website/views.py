@@ -1,7 +1,7 @@
-from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import redirect, render
+from django.shortcuts import render, redirect
+from public_website.decorators import login_required_message, authorization_required_message
 
-from public_website.decorators import belongs_to_group
 from public_website.forms import InscritPoleEmploiForm, StatutEtudiantBoursierForm
 from public_website.models import APICall
 
@@ -9,26 +9,20 @@ from public_website.models import APICall
 def index_view(request):
     return render(request, "public_website/index.html", {})
 
-
-@login_required
+@login_required_message()
 def services_view(request):
     return render(request, "public_website/services.html", {})
 
-
-def forbidden_view(request):
-    return render(request, "public_website/forbidden.html", {})
-
 def accessibility_view(request):
     return render(request, "public_website/accessibility.html", {})
-
 
 def login_view(request):
     if request.user.is_authenticated:
         return redirect("/services")
     return render(request, "public_website/login.html", {})
 
-@login_required
-@user_passes_test(belongs_to_group("Artois Mobilités"), "forbidden")
+@login_required_message()
+@authorization_required_message(group_name="Artois Mobilités")
 def pole_emploi_status_view(request):
     inscription_data = None
     form = InscritPoleEmploiForm
@@ -56,8 +50,8 @@ def pole_emploi_status_view(request):
     }
     return render(request, "public_website/pole_emploi_status.html", context)
 
-@login_required
-@user_passes_test(belongs_to_group("Brest Métropole"), "forbidden")
+@login_required_message()
+@authorization_required_message(group_name="Brest Métropole")
 def etudiant_boursier_status_view(request):
     inscription_data = None
     form = StatutEtudiantBoursierForm

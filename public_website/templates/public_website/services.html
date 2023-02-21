@@ -2,6 +2,18 @@
 {% load static %}
 {% block content %}
 
+{% if messages %}
+<div class="fr-alert fr-alert--error">
+    <h3 class="fr-alert__title">{% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Erreur{% endif %}</h3>
+    <ul>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+
+    </ul>
+</div>
+{% endif %}
+
 
 <div class="fr-container fr-mt-6w">
     <div class="fr-grid-row fr-grid-row--gutters">
