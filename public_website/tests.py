@@ -49,7 +49,7 @@ class TestArtoisMobilitesPage(TestCase):
     def test_reaching_artoismobilites_without_login_returns_redirect(self):
         response = self.client.get("/artois-mobilites/")
         self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, "/login/?next=/artois-mobilites/")
+        self.assertRedirects(response, "/login/")
 
     # # BROKEN. self.client.login doesn't log in.
     # # Because of custom AUTHENTICATION_BACKENDS ?
