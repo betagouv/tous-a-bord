@@ -40,7 +40,7 @@ def login_required_message():
 def authorization_required_message(group_name: str):
     actual_decorator = user_passes_test_message(
         belongs_to_group(group_name),
-        message="Vous êtes bien connecté.e, mais vous n'avez pas les droits pour accéder à cette page.",
+        message="Vous êtes bien connecté·e, mais vous n'avez pas les droits pour accéder à cette page.",
         redirect_to= "/services"
     )
 
