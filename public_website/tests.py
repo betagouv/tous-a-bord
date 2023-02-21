@@ -51,6 +51,13 @@ class TestArtoisMobilitesPage(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, "/login/")
 
+    def test_reaching_artoismobilites_without_login_returns_error_message(self):
+        response = self.client.get("/artois-mobilites/", follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertRedirects(response, "/login/")
+        expected_message = "Vous devez être connecté·e pour accéder à cette page"
+        self.assertContains(response, expected_message)
+
     # # BROKEN. self.client.login doesn't log in.
     # # Because of custom AUTHENTICATION_BACKENDS ?
     # def test_logged_in_user_can_reach_artoismobilites(self):
