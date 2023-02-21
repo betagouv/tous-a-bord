@@ -1,8 +1,8 @@
 import factory
 from django.contrib.auth import get_user_model
+from django.db.models import signals
 from django.test import TestCase
 from django.urls import resolve
-from django.db.models import signals
 
 from public_website import views
 from public_website.utils import obfuscate
@@ -79,6 +79,7 @@ class TestArtoisMobilitesPage(TestCase):
     #     )
     #     self.assertContains(response, "Situation not found")
 
+
 class TestUtils(TestCase):
     def test_obfuscate_email(self):
         result_positive = obfuscate.obfuscate_email("benoit.serrano@beta.gouv.fr")
@@ -86,4 +87,3 @@ class TestUtils(TestCase):
 
         result_negative = obfuscate.obfuscate_email("benoit.serranobeta.gouv.fr")
         self.assertEqual(result_negative, "**************************")
-

@@ -1,10 +1,11 @@
-import os
-from public_website.utils.hash import hash
 import json
+import os
 
 import requests
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+
+from public_website.utils.hash import hash
 
 
 class User(AbstractUser):
@@ -32,5 +33,5 @@ class APICall(models.Model):
         return response
 
     def save(self, *args, **kwargs):
-          self.params = self.hash_params
-          super(APICall, self).save(*args, **kwargs)
+        self.params = self.hash_params
+        super(APICall, self).save(*args, **kwargs)

@@ -1,7 +1,9 @@
 from django.shortcuts import redirect, render
-from django.shortcuts import render, redirect
-from public_website.decorators import login_required_message, authorization_required_message
 
+from public_website.decorators import (
+    authorization_required_message,
+    login_required_message,
+)
 from public_website.forms import InscritPoleEmploiForm, StatutEtudiantBoursierForm
 from public_website.models import APICall
 
@@ -9,17 +11,21 @@ from public_website.models import APICall
 def index_view(request):
     return render(request, "public_website/index.html", {})
 
+
 @login_required_message()
 def services_view(request):
     return render(request, "public_website/services.html", {})
 
+
 def accessibility_view(request):
     return render(request, "public_website/accessibility.html", {})
+
 
 def login_view(request):
     if request.user.is_authenticated:
         return redirect("/services")
     return render(request, "public_website/login.html", {})
+
 
 @login_required_message()
 @authorization_required_message(group_name="Artois Mobilités")
@@ -49,6 +55,7 @@ def pole_emploi_status_view(request):
         "inscription_data": inscription_data,
     }
     return render(request, "public_website/pole_emploi_status.html", context)
+
 
 @login_required_message()
 @authorization_required_message(group_name="Brest Métropole")

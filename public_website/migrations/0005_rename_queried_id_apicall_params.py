@@ -6,13 +6,13 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('public_website', '0004_rename_url_apicall_uri'),
+        ("public_website", "0004_rename_url_apicall_uri"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='apicall',
-            old_name='queried_id',
-            new_name='params',
+            model_name="apicall",
+            old_name="queried_id",
+            new_name="params",
         ),
     ]
