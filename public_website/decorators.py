@@ -31,7 +31,7 @@ def login_required_message():
     """
 
     actual_decorator = user_passes_test_message(
-        lambda u: u.is_authenticated,
+        lambda user: user.is_authenticated,
         message="Vous devez être connecté·e pour accéder à cette page",
         redirect_to=settings.LOGIN_URL
     )
