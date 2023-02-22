@@ -1,8 +1,8 @@
 import factory
 from django.contrib.auth import get_user_model
+from django.db.models import signals
 from django.test import TestCase
 from django.urls import resolve
-from django.db.models import signals
 
 from public_website import views
 from public_website.utils import obfuscate
@@ -49,7 +49,14 @@ class TestArtoisMobilitesPage(TestCase):
     def test_reaching_artoismobilites_without_login_returns_redirect(self):
         response = self.client.get("/artois-mobilites/")
         self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, "/login/?next=/artois-mobilites/")
+        self.assertRedirects(response, "/login/")
+
+    def test_reaching_artoismobilites_without_login_returns_error_message(self):
+        response = self.client.get("/artois-mobilites/", follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertRedirects(response, "/login/")
+        expected_message = "Vous devez être connecté·e pour accéder à cette page"
+        self.assertContains(response, expected_message)
 
     # # BROKEN. self.client.login doesn't log in.
     # # Because of custom AUTHENTICATION_BACKENDS ?
@@ -79,6 +86,7 @@ class TestArtoisMobilitesPage(TestCase):
     #     )
     #     self.assertContains(response, "Situation not found")
 
+
 class TestUtils(TestCase):
     def test_obfuscate_email(self):
         result_positive = obfuscate.obfuscate_email("benoit.serrano@beta.gouv.fr")
@@ -86,4 +94,3 @@ class TestUtils(TestCase):
 
         result_negative = obfuscate.obfuscate_email("benoit.serranobeta.gouv.fr")
         self.assertEqual(result_negative, "**************************")
-
