@@ -88,6 +88,7 @@ class TestServicesPage(TestCase):
         response = self.client.post(
             "/artois-mobilites/", {"identifiant_pole_emploi": identifiant_pole_emploi}
         )
+
         self.assertContains(response, "Situation not found")
 
 

@@ -27,7 +27,7 @@ class APICall(models.Model):
         url = os.environ["API_PARTICULIER_URL"] + self.uri
         response = requests.get(
             url=url,
-            headers={"X-Api-Key": os.getenv("API_PART_TOKEN")},
+            headers={"X-Api-Key": os.environ["API_PART_TOKEN"]},
             params=json.loads(self.params),
         )
         return response
