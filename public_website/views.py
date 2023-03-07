@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.shortcuts import redirect, render
 
 from public_website.decorators import (
@@ -12,7 +13,7 @@ def index_view(request):
     return render(request, "public_website/index.html", {})
 
 
-@login_required_message()
+# @login_required_message()
 def services_view(request):
     return render(request, "public_website/services.html", {})
 
@@ -38,8 +39,13 @@ def pole_emploi_status_view(request):
         if form.is_valid():
             uri = "/situations-pole-emploi"
 
+            if request.user.is_authenticated:
+                user = request.user
+            else:
+                user = get_user_model().objects.get(username="anonymous_user")
+
             api_call = APICall(
-                user=request.user,
+                user=user,
                 params='{"identifiant": "'
                 + form.cleaned_data["identifiant_pole_emploi"]
                 + '"}',
