@@ -39,11 +39,13 @@ def pole_emploi_status_view(request):
         if form.is_valid():
             uri = "/situations-pole-emploi"
 
-            anonymous_user = get_user_model().objects.get(username="anonymous_user")
+            if request.user.is_authenticated:
+                user = request.user
+            else:
+                user = get_user_model().objects.get(username="anonymous_user")
 
             api_call = APICall(
-                # user=request.user,
-                user=anonymous_user,
+                user=user,
                 params='{"identifiant": "'
                 + form.cleaned_data["identifiant_pole_emploi"]
                 + '"}',
