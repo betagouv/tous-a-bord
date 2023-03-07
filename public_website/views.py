@@ -27,8 +27,8 @@ def login_view(request):
     return render(request, "public_website/login.html", {})
 
 
-@login_required_message()
-@authorization_required_message(group_name="Artois Mobilités")
+# @login_required_message()
+# @authorization_required_message(group_name="Artois Mobilités")
 def pole_emploi_status_view(request):
     inscription_data = None
     form = InscritPoleEmploiForm
