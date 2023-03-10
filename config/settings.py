@@ -14,7 +14,9 @@ import os
 from pathlib import Path
 
 import dj_database_url
+import sentry_sdk
 from dotenv import load_dotenv
+from sentry_sdk.integrations.django import DjangoIntegration
 
 load_dotenv()
 
@@ -178,3 +180,19 @@ OIDC_OP_JWKS_ENDPOINT = os.environ["OIDC_OP_JWKS_ENDPOINT"]
 LOGIN_URL = "/login/"
 LOGIN_REDIRECT_URL = "/services/"
 LOGOUT_REDIRECT_URL = "/"
+
+
+# Config for Sentry
+SENTRY_URL = os.getenv("SENTRY_URL", "")
+if SENTRY_URL:
+    sentry_sdk.init(
+        dsn=SENTRY_URL,
+        integrations=[DjangoIntegration()],
+        # Set traces_sample_rate to 1.0 to capture 100%
+        # of transactions for performance monitoring.
+        # We recommend adjusting this value in production.
+        traces_sample_rate=float(os.getenv("SENTRY_SAMPLE_RATE", 0)),
+        # If you wish to associate users to errors (assuming you are using
+        # django.contrib.auth) you may enable sending PII data.
+        send_default_pii=True,
+    )
