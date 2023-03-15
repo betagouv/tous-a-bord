@@ -63,8 +63,8 @@ def pole_emploi_status_view(request):
     return render(request, "public_website/pole_emploi_status.html", context)
 
 
-@login_required_message()
-@authorization_required_message(group_name="Brest Métropole")
+# @login_required_message()
+# @authorization_required_message(group_name="Brest Métropole")
 def etudiant_boursier_status_view(request):
     inscription_data = None
     form = StatutEtudiantBoursierForm
@@ -74,8 +74,13 @@ def etudiant_boursier_status_view(request):
         if form.is_valid():
             uri = "/etudiants-boursiers"
 
+            if request.user.is_authenticated:
+                user = request.user
+            else:
+                user = get_user_model().objects.get(username="anonymous_user")
+
             api_call = APICall(
-                user=request.user,
+                user=user,
                 params='{"ine": "' + form.cleaned_data["numero_ine"] + '"}',
                 uri=uri,
             )
