@@ -9,11 +9,15 @@
         <div class="fr-col-12">
             <form action="" method="POST">
                 {% csrf_token %}
-                
+
                 <div class="fr-col-12 fr-col-sm-6">
-                    <label class="fr-label" for="numero_ine">{{ form.numero_ine.label }}</label>
-                    <input class="fr-input" type="text" id="numero_ine" name="numero_ine" value="{{ form.data.numero_ine }}">
-                    <input type="submit" value="Rechercher">
+                    <div class="fr-search-bar fr-search-bar--lg" role="search">
+                    <label class="fr-label" for="numero_ine">
+                        {{ form.numero_ine.label }}
+                    </label>
+                    <input class="fr-input" placeholder="Rechercher" type="search" id="numero_ine" name="numero_ine" value="{{ form.numero_ine.label }}">
+                    <input class="fr-btn" type="submit" value="Rechercher">
+                    </div>
                 </div>
             </form>
 
