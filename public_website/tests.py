@@ -49,17 +49,17 @@ class TestServicesPage(TestCase):
         match = resolve("/artois-mobilites/")
         self.assertEqual(match.func, views.pole_emploi_status_view)
 
-    # def test_reaching_artoismobilites_without_login_returns_redirect(self):
-    #     response = self.client.get("/artois-mobilites/")
-    #     self.assertEqual(response.status_code, 302)
-    #     self.assertRedirects(response, "/login/")
+    def test_reaching_artoismobilites_without_login_returns_redirect(self):
+        response = self.client.get("/artois-mobilites/")
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, "/login/")
 
-    # def test_reaching_artoismobilites_without_login_returns_error_message(self):
-    #     response = self.client.get("/artois-mobilites/", follow=True)
-    #     self.assertEqual(response.status_code, 200)
-    #     self.assertRedirects(response, "/login/")
-    #     expected_message = "Vous devez être connecté·e pour accéder à cette page"
-    #     self.assertContains(response, expected_message)
+    def test_reaching_artoismobilites_without_login_returns_error_message(self):
+        response = self.client.get("/artois-mobilites/", follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertRedirects(response, "/login/")
+        expected_message = "Vous devez être connecté·e pour accéder à cette page"
+        self.assertContains(response, expected_message)
 
     def test_logged_in_user_can_reach_artoismobilites(self):
         self.client.force_login(self.testuser)
@@ -72,24 +72,24 @@ class TestServicesPage(TestCase):
         response = self.client.get("/artois-mobilites/")
         self.assertTemplateUsed(response, "public_website/pole_emploi_status.html")
 
-    # def test_knownid_returns_expected_status(self):
-    #     self.client.force_login(self.testuser)
-    #     identifiant_pole_emploi = "aflantier_1"
-    #     response = self.client.post(
-    #         "/artois-mobilites/",
-    #         {"identifiant_pole_emploi": identifiant_pole_emploi},
-    #         follow=True,
-    #     )
-    #     self.assertContains(response, "Flantier")
+    def test_knownid_returns_expected_status(self):
+        self.client.force_login(self.testuser)
+        identifiant_pole_emploi = "aflantier_1"
+        response = self.client.post(
+            "/artois-mobilites/",
+            {"identifiant_pole_emploi": identifiant_pole_emploi},
+            follow=True,
+        )
+        self.assertContains(response, "Flantier")
 
-    # def test_unknownid_returns_error_message(self):
-    #     self.client.force_login(self.testuser)
-    #     identifiant_pole_emploi = "hopefullynotanexistingID"
-    #     response = self.client.post(
-    #         "/artois-mobilites/", {"identifiant_pole_emploi": identifiant_pole_emploi}
-    #     )
+    def test_unknownid_returns_error_message(self):
+        self.client.force_login(self.testuser)
+        identifiant_pole_emploi = "hopefullynotanexistingID"
+        response = self.client.post(
+            "/artois-mobilites/", {"identifiant_pole_emploi": identifiant_pole_emploi}
+        )
 
-    #     self.assertContains(response, "Situation not found")
+        self.assertContains(response, "Situation not found")
 
 
 class TestUtils(TestCase):
