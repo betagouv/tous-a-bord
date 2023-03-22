@@ -12,7 +12,7 @@ def index_view(request):
     return render(request, "public_website/index.html", {})
 
 
-# @login_required_message()
+@login_required_message()
 def services_view(request):
     return render(request, "public_website/services.html", {})
 

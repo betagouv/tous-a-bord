@@ -2,10 +2,20 @@ import json
 import os
 
 import requests
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, Group
 from django.db import models
 
 from public_website.utils.hash import hash
+
+
+class Habilitation(models.Model):
+    token = models.CharField(max_length=150, blank=False, null=False)
+    group = models.ForeignKey(
+        Group, on_delete=models.PROTECT, related_name="habilitation"
+    )
+
+    def __str__(self):
+        return f"Token {self.group}"
 
 
 class User(AbstractUser):
