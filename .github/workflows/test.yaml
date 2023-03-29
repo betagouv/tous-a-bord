@@ -34,10 +34,6 @@ jobs:
       - name: Copy empty .env.example to .env
         run: |
           cp .env.example .env
-      - name: Migrate 
-        run: |
-          python manage.py makemigrations
-          python manage.py migrate
       - name: Run the unit tests
         run: |
           python manage.py test

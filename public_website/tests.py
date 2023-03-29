@@ -6,6 +6,7 @@ from django.test import TestCase
 from django.urls import resolve
 
 from public_website import views
+from public_website.models import Habilitation
 from public_website.utils import obfuscate
 
 
@@ -44,6 +45,11 @@ class TestServicesPage(TestCase):
         )
         artois_mobilites_group = Group.objects.create(name="Artois Mobilités")
         artois_mobilites_group.user_set.add(self.testuser)
+        Habilitation.objects.create(
+            token="not-a-real-token", group=artois_mobilites_group
+        )
+
+        Group.objects.create(name="Brest Métropole")
 
     def test_pestatus_url_calls_correct_view(self):
         match = resolve("/artois-mobilites/")
@@ -73,12 +79,12 @@ class TestServicesPage(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Interface d'interrogation de l'API Pôle Emploi")
 
-    def test_wrong_group_cant_reach_view(self):
+    def test_wrong_group_cannot_reach_view(self):
         self.client.force_login(self.testuser)
         response = self.client.get("/brest-metropole/", follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertRedirects(response, "/services/")
-        error_message = "Le groupe associé n&#x27;a pas l&#x27;autorisation d&#x27;accéder à la page."
+        error_message = "Vous êtes bien connecté·e, mais vous n&#x27;avez pas les droits pour accéder à cette page."
         self.assertContains(response, error_message)
 
     def test_pestatus_url_calls_expected_template(self):
