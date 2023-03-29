@@ -61,13 +61,27 @@ class TestServicesPage(TestCase):
         expected_message = "Vous devez être connecté·e pour accéder à cette page"
         self.assertContains(response, expected_message)
 
-    def test_logged_in_user_can_reach_artoismobilites(self):
+    def test_logged_in_user_can_reach_services(self):
         self.client.force_login(self.testuser)
         response = self.client.get("/services/", follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Services")
 
-    def test_pestatus_url_calls_right_template(self):
+    def test_authorized_group_can_reach_view(self):
+        self.client.force_login(self.testuser)
+        response = self.client.get("/artois-mobilites/", follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Interface d'interrogation de l'API Pôle Emploi")
+
+    def test_wrong_group_cant_reach_view(self):
+        self.client.force_login(self.testuser)
+        response = self.client.get("/brest-metropole/", follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertRedirects(response, "/services/")
+        error_message = "Le groupe associé n&#x27;a pas l&#x27;autorisation d&#x27;accéder à la page."
+        self.assertContains(response, error_message)
+
+    def test_pestatus_url_calls_expected_template(self):
         self.client.force_login(self.testuser)
         response = self.client.get("/artois-mobilites/")
         self.assertTemplateUsed(response, "public_website/pole_emploi_status.html")
