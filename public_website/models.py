@@ -27,6 +27,7 @@ class APICall(models.Model):
     user = models.ForeignKey(User, models.PROTECT, related_name="calls")
     uri = models.CharField(max_length=150, blank=False, null=False)
     params = models.CharField(max_length=150)
+    habilitation = models.ForeignKey(Habilitation, models.PROTECT, related_name="uses")
 
     @property
     def hash_params(self):
@@ -37,7 +38,7 @@ class APICall(models.Model):
         url = os.environ["API_PARTICULIER_URL"] + self.uri
         response = requests.get(
             url=url,
-            headers={"X-Api-Key": os.environ["API_PART_TOKEN"]},
+            headers={"X-Api-Key": self.habilitation.token},
             params=json.loads(self.params),
         )
         return response

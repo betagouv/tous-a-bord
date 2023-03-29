@@ -48,6 +48,7 @@ def pole_emploi_status_view(request):
 
             api_call = APICall(
                 user=request.user,
+                habilitation=Habilitation.objects.get(group=authorized_group),
                 params='{"identifiant": "'
                 + form.cleaned_data["identifiant_pole_emploi"]
                 + '"}',
@@ -87,6 +88,7 @@ def etudiant_boursier_status_view(request):
 
             api_call = APICall(
                 user=request.user,
+                habilitation=Habilitation.objects.get(group=authorized_group),
                 params='{"ine": "' + form.cleaned_data["numero_ine"] + '"}',
                 uri=uri,
             )
