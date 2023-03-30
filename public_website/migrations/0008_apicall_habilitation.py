@@ -4,7 +4,7 @@ import django.db.models.deletion
 from django.db import migrations, models
 
 
-def clear_api_calls(apps):
+def clear_api_calls(apps, schema_editor):
     ApiCall = apps.get_model("public_website", "APICall")
     ApiCall.objects.all().delete()
 
