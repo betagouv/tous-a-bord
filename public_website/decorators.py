@@ -2,7 +2,6 @@ from functools import wraps
 
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth.models import Group
 from django.shortcuts import redirect
 
 
@@ -45,27 +44,10 @@ def login_required_message():
 
 
 def authorization_required_message(group_name: str):
-
-    try:
-        Group.objects.get(name=group_name).habilitation.all()[0]
-    except Group.DoesNotExist:
-
-        def test_function(user):
-            return False
-
-        error_message = "Le groupe associé à cette page n'existe pas."
-    except IndexError:
-
-        def test_function(user):
-            return False
-
-        error_message = "Le groupe associé n'a pas l'autorisation d'accéder à la page."
-    else:
-        test_function = belongs_to_group(group_name)
-        error_message = "Vous êtes bien connecté·e, mais vous n'avez pas les droits pour accéder à cette page."
-
     actual_decorator = user_passes_test_message(
-        test_func=test_function, message=error_message, redirect_to="/services"
+        belongs_to_group(group_name),
+        message="Vous êtes bien connecté·e, mais vous n'avez pas les droits pour accéder à cette page.",
+        redirect_to="/services",
     )
 
     return actual_decorator
