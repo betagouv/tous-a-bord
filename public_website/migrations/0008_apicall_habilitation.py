@@ -4,6 +4,11 @@ import django.db.models.deletion
 from django.db import migrations, models
 
 
+def clear_api_calls(apps):
+    ApiCall = apps.get_model("public_website", "APICall")
+    ApiCall.objects.all().delete()
+
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -11,6 +16,7 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        migrations.RunPython(clear_api_calls),
         migrations.AddField(
             model_name="apicall",
             name="habilitation",
