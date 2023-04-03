@@ -1,3 +1,5 @@
+import os
+
 import factory
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
@@ -46,8 +48,11 @@ class TestServicesPage(TestCase):
         )
         artois_mobilites_group = Group.objects.create(name="Artois Mobilités")
         artois_mobilites_group.user_set.add(self.testuser)
-        Habilitation.objects.create(
-            token="not-a-real-token", group=artois_mobilites_group
+        self.habilitation_artois = Habilitation.objects.create(
+            token=os.getenv("API_PART_TOKEN")
+            if os.getenv("API_PART_TOKEN") is not None
+            else "Not-a-real-key",
+            group=artois_mobilites_group,
         )
 
         Group.objects.create(name="Brest Métropole")
@@ -56,19 +61,24 @@ class TestServicesPage(TestCase):
         match = resolve("/artois-mobilites/")
         self.assertEqual(match.func, views.pole_emploi_status_view)
 
-    def test_reaching_artoismobilites_without_login_returns_redirect(self):
+    def test_pestatus_url_calls_expected_template(self):
+        self.client.force_login(self.testuser)
+        response = self.client.get("/artois-mobilites/")
+        self.assertTemplateUsed(response, "public_website/pole_emploi_status.html")
+
+    def test_unauthenticated_user_is_redirected(self):
         response = self.client.get("/artois-mobilites/")
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, "/login/")
 
-    def test_reaching_artoismobilites_without_login_returns_error_message(self):
+    def test_unauthenticated_user_gets_error_message(self):
         response = self.client.get("/artois-mobilites/", follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertRedirects(response, "/login/")
         expected_message = "Vous devez être connecté·e pour accéder à cette page"
         self.assertContains(response, expected_message)
 
-    def test_logged_in_user_can_reach_services(self):
+    def test_authenticated_user_can_reach_services(self):
         self.client.force_login(self.testuser)
         response = self.client.get("/services/", follow=True)
         self.assertEqual(response.status_code, 200)
@@ -80,7 +90,7 @@ class TestServicesPage(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Interface d'interrogation de l'API Pôle Emploi")
 
-    def test_wrong_group_cannot_reach_view(self):
+    def test_unauthorized_group_cannot_reach_view(self):
         self.client.force_login(self.testuser)
         response = self.client.get("/brest-metropole/", follow=True)
         self.assertEqual(response.status_code, 200)
@@ -101,30 +111,36 @@ class TestServicesPage(TestCase):
         warning_message = "Pas d&#x27;habilitation trouvée pour votre groupe."
         self.assertContains(response, mark_safe(warning_message))
 
-    def test_pestatus_url_calls_expected_template(self):
+    def test_incorrect_habilitation_token_returns_api_part_error(self):
         self.client.force_login(self.testuser)
-        response = self.client.get("/artois-mobilites/")
-        self.assertTemplateUsed(response, "public_website/pole_emploi_status.html")
+        identifiant_pole_emploi = "aflantier_1"
+        self.habilitation_artois.token = "Not-a-real-key"
+        self.habilitation_artois.save()
+        response = self.client.post(
+            "/artois-mobilites/",
+            {"identifiant_pole_emploi": identifiant_pole_emploi},
+            follow=True,
+        )
+        self.assertContains(response, "Token not found or inactive")
 
-    # BROKEN TESTS : need valid API Part Token
-    # def test_known_peamu_returns_status(self):
-    #     self.client.force_login(self.testuser)
-    #     identifiant_pole_emploi = "aflantier_1"
-    #     response = self.client.post(
-    #         "/artois-mobilites/",
-    #         {"identifiant_pole_emploi": identifiant_pole_emploi},
-    #         follow=True,
-    #     )
-    #     self.assertContains(response, "Flantier")
+    def test_correct_habilitation_token_returns_expected_results(self):
+        self.client.force_login(self.testuser)
+        identifiant_pole_emploi = "aflantier_1"
+        self.assertNotEqual(self.habilitation_artois.token, "Not-a-real-key")
+        response = self.client.post(
+            "/artois-mobilites/",
+            {"identifiant_pole_emploi": identifiant_pole_emploi},
+            follow=True,
+        )
+        self.assertContains(response, "Flantier")
 
-    # def test_unknown_peamu_returns_error_message(self):
-    #     self.client.force_login(self.testuser)
-    #     identifiant_pole_emploi = "hopefullynotanexistingID"
-    #     response = self.client.post(
-    #         "/artois-mobilites/", {"identifiant_pole_emploi": identifiant_pole_emploi}
-    #     )
-
-    #     self.assertContains(response, "Situation not found")
+    def test_unknown_peamu_returns_error_message(self):
+        self.client.force_login(self.testuser)
+        identifiant_pole_emploi = "hopefullynotanexistingID"
+        response = self.client.post(
+            "/artois-mobilites/", {"identifiant_pole_emploi": identifiant_pole_emploi}
+        )
+        self.assertContains(response, "Situation not found")
 
 
 class TestUtils(TestCase):
