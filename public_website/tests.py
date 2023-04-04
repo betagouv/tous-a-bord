@@ -61,7 +61,7 @@ class TestServicesPage(TestCase):
         match = resolve("/artois-mobilites/")
         self.assertEqual(match.func, views.pole_emploi_status_view)
 
-    def test_pestatus_url_calls_expected_template(self):
+    def test_pole_emploi_status_url_calls_expected_template(self):
         self.client.force_login(self.testuser)
         response = self.client.get("/artois-mobilites/")
         self.assertTemplateUsed(response, "public_website/pole_emploi_status.html")
