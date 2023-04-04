@@ -57,7 +57,7 @@ class TestServicesPage(TestCase):
 
         Group.objects.create(name="Brest Métropole")
 
-    def test_pestatus_url_calls_correct_view(self):
+    def test_pole_emploi_status_url_calls_expected_view(self):
         match = resolve("/artois-mobilites/")
         self.assertEqual(match.func, views.pole_emploi_status_view)
 
