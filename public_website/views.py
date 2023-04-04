@@ -1,3 +1,5 @@
+from django.contrib import messages
+from django.contrib.auth.models import Group
 from django.shortcuts import redirect, render
 
 from public_website.decorators import (
@@ -5,14 +7,14 @@ from public_website.decorators import (
     login_required_message,
 )
 from public_website.forms import InscritPoleEmploiForm, StatutEtudiantBoursierForm
-from public_website.models import APICall
+from public_website.models import APICall, Habilitation
 
 
 def index_view(request):
     return render(request, "public_website/index.html", {})
 
 
-# @login_required_message()
+@login_required_message()
 def services_view(request):
     return render(request, "public_website/services.html", {})
 
@@ -32,6 +34,13 @@ def login_view(request):
 def pole_emploi_status_view(request):
     inscription_data = None
     form = InscritPoleEmploiForm
+    authorized_group = Group.objects.get(name="Artois Mobilités")
+
+    if not Habilitation.objects.filter(group=authorized_group).exists():
+        messages.warning(
+            request,
+            message="Pas d'habilitation trouvée pour votre groupe. Contactez-nous à tousabord@beta.gouv.fr.",
+        )
 
     if request.method == "POST":
         form = InscritPoleEmploiForm(request.POST)
@@ -40,6 +49,7 @@ def pole_emploi_status_view(request):
 
             api_call = APICall(
                 user=request.user,
+                habilitation=Habilitation.objects.get(group=authorized_group),
                 params='{"identifiant": "'
                 + form.cleaned_data["identifiant_pole_emploi"]
                 + '"}',
@@ -62,6 +72,13 @@ def pole_emploi_status_view(request):
 def etudiant_boursier_status_view(request):
     inscription_data = None
     form = StatutEtudiantBoursierForm
+    authorized_group = Group.objects.get(name="Brest Métropole")
+
+    if not Habilitation.objects.filter(group=authorized_group).exists():
+        messages.warning(
+            request,
+            message="Pas d'habilitation trouvée pour votre groupe. Contactez-nous à tousabord@beta.gouv.fr.",
+        )
 
     if request.method == "POST":
         form = StatutEtudiantBoursierForm(request.POST)
@@ -70,6 +87,7 @@ def etudiant_boursier_status_view(request):
 
             api_call = APICall(
                 user=request.user,
+                habilitation=Habilitation.objects.get(group=authorized_group),
                 params='{"ine": "' + form.cleaned_data["numero_ine"] + '"}',
                 uri=uri,
             )

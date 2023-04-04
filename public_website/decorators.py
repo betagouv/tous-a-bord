@@ -38,7 +38,7 @@ def login_required_message():
     actual_decorator = user_passes_test_message(
         lambda user: user.is_authenticated,
         message="Vous devez être connecté·e pour accéder à cette page",
-        redirect_to=settings.LOGIN_URL
+        redirect_to=settings.LOGIN_URL,
     )
     return actual_decorator
 
@@ -47,7 +47,7 @@ def authorization_required_message(group_name: str):
     actual_decorator = user_passes_test_message(
         belongs_to_group(group_name),
         message="Vous êtes bien connecté·e, mais vous n'avez pas les droits pour accéder à cette page.",
-        redirect_to= "/services"
+        redirect_to="/services",
     )
 
     return actual_decorator
