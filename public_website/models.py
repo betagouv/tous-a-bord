@@ -19,7 +19,8 @@ class Habilitation(models.Model):
 
 
 class User(AbstractUser):
-    pass
+    def groups_list(self):
+        return ", ".join([group.name for group in self.groups.all()])
 
 
 class APICall(models.Model):
