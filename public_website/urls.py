@@ -12,4 +12,5 @@ urlpatterns = [
     ),
     path("login/", views.login_view, name="login"),
     path("oidc/", include("mozilla_django_oidc.urls")),
+    path("mentions-legales/", views.legal_notice_view, name="mentions-legales"),
 ]
