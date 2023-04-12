@@ -101,3 +101,7 @@ def etudiant_boursier_status_view(request):
         "inscription_data": inscription_data,
     }
     return render(request, "public_website/etudiant_boursier_status.html", context)
+
+
+def legal_notice_view(request):
+    return render(request, "public_website/mentions-legales.html", context={})
