@@ -2,8 +2,13 @@ import os
 
 import sib_api_v3_sdk
 
+from config import settings
+
 configuration = sib_api_v3_sdk.Configuration()
 configuration.api_key["api-key"] = os.environ["BREVO_API_KEY"]
+api_instance = sib_api_v3_sdk.TransactionalEmailsApi(
+    sib_api_v3_sdk.ApiClient(configuration)
+)
 
 
 def send_user_creation_email(user_email: str):
@@ -34,13 +39,15 @@ def send_user_creation_email(user_email: str):
         raise
 
 
-def send_webhook_notification_email(email_adress: str, message: str):
+def send_webhook_notification_email(payload: dict):
     send_transac_email(
         sender_email="tousabord@beta.gouv.fr",
         sender_name="Tous à bord",
-        to_email=email_adress,
+        to_email="tousabord@beta.gouv.fr"
+        if "tous-a-bord.beta.gouv.fr" in settings.HOST_URL
+        else "marie.jeammet@beta.gouv.fr",
         subject="Test webhook Tous à Bord !",
-        text_content=message,
+        text_content=str(payload),
     )
 
 
@@ -48,9 +55,6 @@ def send_transac_email(
     sender_email: str, sender_name: str, to_email: str, subject: str, text_content: str
 ) -> bool:
     try:
-        api_instance = sib_api_v3_sdk.TransactionalEmailsApi(
-            sib_api_v3_sdk.ApiClient(configuration)
-        )
         to = [sib_api_v3_sdk.SendSmtpEmailTo(to_email)]
         sender = sib_api_v3_sdk.SendSmtpEmailSender(
             name=sender_name, email=sender_email
@@ -61,5 +65,5 @@ def send_transac_email(
         api_instance.send_transac_email(email)
         return True
     except sib_api_v3_sdk.rest.ApiException as e:
-        print("Exception when calling ContactsApi->create_contact: %s", e)
+        print("Exception when sending transac email: %s", e)
         raise
