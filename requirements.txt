@@ -1,4 +1,4 @@
-Django==3.2.19
+Django==3.2.18
 django-dsfr==0.13.1
 python-dotenv==0.21.0
 pre-commit==2.20.0
