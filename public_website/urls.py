@@ -10,6 +10,7 @@ urlpatterns = [
     path(
         "brest-metropole/", views.etudiant_boursier_status_view, name="brest-metropole"
     ),
+    path("mailing_webhook/<str:token>", views.mailing_view, name="mailing"),
     path("login/", views.login_view, name="login"),
     path("oidc/", include("mozilla_django_oidc.urls")),
     path("mentions-legales/", views.legal_notice_view, name="mentions-legales"),

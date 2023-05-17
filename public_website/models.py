@@ -47,3 +47,13 @@ class APICall(models.Model):
     def save(self, *args, **kwargs):
         self.params = self.hash_params
         super(APICall, self).save(*args, **kwargs)
+
+
+class BrestWebhookMessage(models.Model):
+    received_at = models.DateTimeField(help_text="When we received the event.")
+    payload = models.JSONField(default=None, null=True)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=["received_at"]),
+        ]

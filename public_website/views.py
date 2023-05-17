@@ -1,13 +1,20 @@
+import json
+
 from django.contrib import messages
 from django.contrib.auth.models import Group
+from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import redirect, render
+from django.utils import timezone
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 
+from config import settings
 from public_website.decorators import (
     authorization_required_message,
     login_required_message,
 )
 from public_website.forms import InscritPoleEmploiForm, StatutEtudiantBoursierForm
-from public_website.models import APICall, Habilitation
+from public_website.models import APICall, BrestWebhookMessage, Habilitation
 
 
 def index_view(request):
@@ -65,6 +72,23 @@ def pole_emploi_status_view(request):
         "inscription_data": inscription_data,
     }
     return render(request, "public_website/pole_emploi_status.html", context)
+
+
+@csrf_exempt
+@require_POST
+def mailing_view(request, token):
+    if token != settings.BREST_WEBHOOK_TOKEN:
+        return HttpResponseForbidden(
+            "Incorrect token in header.",
+            content_type="text/plain",
+        )
+    payload = json.loads(request.body)
+    BrestWebhookMessage.objects.create(
+        received_at=timezone.now(),
+        payload=payload,
+    )
+    # process_webhook_payload(payload)
+    return HttpResponse(f"Message received = {payload}", content_type="text/plain")
 
 
 @login_required_message()
