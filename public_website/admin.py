@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import BrestWebhookMessage, Habilitation, User
+from .models import Habilitation, User
 
 
 @admin.register(User)
@@ -10,9 +10,4 @@ class UserAdmin(admin.ModelAdmin):
 
 @admin.register(Habilitation)
 class HabilitationAdmin(admin.ModelAdmin):
-    pass
-
-
-@admin.register(BrestWebhookMessage)
-class BrestWebhookAdmin(admin.ModelAdmin):
     pass
