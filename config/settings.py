@@ -29,7 +29,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv("SECRET_KEY")
-GRIST_WEBHOOK_SECRET = os.getenv("GRIST_WEBHOOK_SECRET")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True if os.getenv("DEBUG") == "True" else False
@@ -197,3 +196,8 @@ if SENTRY_URL:
         # django.contrib.auth) you may enable sending PII data.
         send_default_pii=True,
     )
+
+
+## GRIST-RELATED
+GRIST_WEBHOOK_SECRET = os.getenv("GRIST_WEBHOOK_SECRET")
+GRIST_LOGS_EMAILS_TO = os.getenv("GRIST_LOGS_EMAILS_TO").split(" ")
