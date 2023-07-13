@@ -49,9 +49,8 @@ class TestServicesPage(TestCase):
         artois_mobilites_group = Group.objects.create(name="Artois Mobilités")
         artois_mobilites_group.user_set.add(self.testuser)
         self.habilitation_artois = Habilitation.objects.create(
-            token=os.getenv("API_PART_TOKEN")
-            if os.getenv("API_PART_TOKEN") is not None
-            else "Not-a-real-key",
+            server=os.getenv("API_PART_STAGING_SERVER", "http://not-a-real.server"),
+            token=os.getenv("API_PART_STAGING_TOKEN", "Not-a-real-key"),
             group=artois_mobilites_group,
         )
 

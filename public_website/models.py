@@ -13,6 +13,7 @@ class Habilitation(models.Model):
     group = models.ForeignKey(
         Group, on_delete=models.PROTECT, related_name="habilitation"
     )
+    server = models.TextField(blank=False, null=False)
 
     def __str__(self):
         return f"Token {self.group}"
@@ -36,7 +37,7 @@ class APICall(models.Model):
         return hashed_params
 
     def fetch(self):
-        url = os.environ["API_PARTICULIER_URL"] + self.uri
+        url = self.habilitation.server + self.uri
         response = requests.get(
             url=url,
             headers={"X-Api-Key": self.habilitation.token},
