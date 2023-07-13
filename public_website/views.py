@@ -45,7 +45,7 @@ def pole_emploi_status_view(request):
     if request.method == "POST":
         form = InscritPoleEmploiForm(request.POST)
         if form.is_valid():
-            uri = "/situations-pole-emploi"
+            uri = "/api/v2/situations-pole-emploi"
 
             api_call = APICall(
                 user=request.user,
@@ -83,7 +83,7 @@ def etudiant_boursier_status_view(request):
     if request.method == "POST":
         form = StatutEtudiantBoursierForm(request.POST)
         if form.is_valid():
-            uri = "/etudiants-boursiers"
+            uri = "/api/v2/etudiants-boursiers"
 
             api_call = APICall(
                 user=request.user,
