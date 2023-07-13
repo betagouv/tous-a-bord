@@ -1,4 +1,5 @@
 from django.contrib import admin
+
 from .models import APICall, Habilitation, User
 
 
@@ -10,6 +11,7 @@ class UserAdmin(admin.ModelAdmin):
 @admin.register(Habilitation)
 class HabilitationAdmin(admin.ModelAdmin):
     pass
+
 
 @admin.register(APICall)
 class APICallAdmin(admin.ModelAdmin):
