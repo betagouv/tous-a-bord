@@ -2,10 +2,6 @@ name: Run tests
 
 on: [push]
 
-env:
-  # Setting an environment variable with the value of a configuration variable
-  API_PART_TOKEN: ${{ vars.API_PART_TOKEN }}
-
 jobs:
   build:
     runs-on: ubuntu-latest
