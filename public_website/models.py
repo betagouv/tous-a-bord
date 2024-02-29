@@ -1,5 +1,4 @@
 import json
-import os
 
 import requests
 from django.contrib.auth.models import AbstractUser, Group
@@ -48,3 +47,19 @@ class APICall(models.Model):
     def save(self, *args, **kwargs):
         self.params = self.hash_params
         super(APICall, self).save(*args, **kwargs)
+
+
+class Import(models.Model):
+    created_at = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="imports")
+
+
+class Item(models.Model):
+    created_at = models.DateTimeField(auto_now=True)
+    import_instance = models.ForeignKey(
+        Import, on_delete=models.CASCADE, related_name="items"
+    )
+    value = models.JSONField()
+
+    def __str__(self):
+        return f"{self.pk} {self.value}"

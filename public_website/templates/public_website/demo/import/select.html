@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+{% include "blocks/messages.html" %}
+
+<div class="fr-container fr-mt-6w">
+    <div class="fr-grid-row fr-grid-row--gutters">
+        <div class="fr-col-12">
+            <h1>Bienvenu·e dans l'espace de démonstration !</h1>
+        </div>
+        <div class="fr-col-12">
+            <a class="fr-link" href="/demo">Retrouver à l'accueil de démo</a>
+        </div>
+        <div class="fr-col-12">
+            <form action="" method="POST">
+                {% csrf_token %}
+                <div class="fr-input-group">
+                    <div class="fr-select-group">
+                        <label class="fr-label" for="commune">
+                            {{ form.fields.commune.label }}
+                            <span class="fr-hint-text" id="commune-desc-hint">Texte de description additionnel</span>
+                        </label>
+                        <select class="fr-select" id="commune" name="commune">
+                            {% for value, label in form.fields.commune.choices %}
+                                <option value="{{value}}">{{label}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <input class="fr-btn" type="submit" value="Importer">
+            </form>
+        </div>
+    </div>
+            
+</div>
+
+{% endblock content %}

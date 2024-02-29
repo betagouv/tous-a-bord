@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+{% include "blocks/messages.html" %}
+
+<div class="fr-container fr-mt-6w">
+    <div class="fr-grid-row fr-grid-row--gutters">
+        <div class="fr-col-12">
+            <h3>Espace de démonstration</h3>
+            <ul>
+                <li><a class="fr-link" href="/demo/import/select">Sélectionnez des données à importer</a></li>
+                <li><a class="fr-link" href="/demo/imports">Accédez à la liste des données importées</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

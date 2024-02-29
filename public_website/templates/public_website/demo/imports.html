@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+{% include "blocks/messages.html" %}
+
+<div class="fr-container fr-mt-6w">
+    <div class="fr-grid-row fr-grid-row--gutters">
+        <h1>Imports réalisés</h1>
+        <div class="fr-col-12">
+            <a class="fr-link" href="/demo">Retrouver à l'accueil de démo</a>
+        </div>
+        <div class="fr-col-12">
+            <div class="fr-col-12 fr-mt-4w">
+                {% for item in imports %}
+                    <ul>
+                        <li>
+                            <a class="fr-link" href="/demo/import/{{item.id}}">{{ item.created_at }}</a>
+                        </li>
+                    </ul>
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
