@@ -25,7 +25,6 @@ Pour l'installer :
 pre-commit install
 ```
 
-
 Vous pouvez effectuer un premier passage sur tous les fichiers du repo avec :
 
 ```bash
