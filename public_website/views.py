@@ -1,13 +1,19 @@
 from django.contrib import messages
 from django.contrib.auth.models import Group
+from django.db import transaction
 from django.shortcuts import redirect, render
 
 from public_website.decorators import (
     authorization_required_message,
     login_required_message,
 )
-from public_website.forms import InscritPoleEmploiForm, StatutEtudiantBoursierForm
-from public_website.models import APICall, Habilitation
+from public_website.forms import (
+    DemoImportForm,
+    InscritPoleEmploiForm,
+    StatutEtudiantBoursierForm,
+)
+from public_website.models import APICall, Habilitation, Import, Item
+from public_website.utils.grist import build_dataset
 
 
 def index_view(request):
@@ -17,6 +23,55 @@ def index_view(request):
 @login_required_message()
 def services_view(request):
     return render(request, "public_website/services.html", {})
+
+
+@login_required_message()
+def demo_view(request):
+    return render(request, "public_website/demo/index.html", {})
+
+
+@login_required_message()
+def demo_import_select_view(request):
+
+    if request.method == "POST":
+        form = DemoImportForm(request.POST)
+        if not form.is_valid():
+            messages.warning(request, message="La commune n'a pas été renseignée.")
+        else:
+            with transaction.atomic():
+                import_instance = Import(user=request.user)
+                import_instance.save()
+                for item_data in build_dataset(form.cleaned_data["commune"]):
+                    i = Item(import_instance=import_instance, value=item_data)
+                    i.save()
+                return redirect(f"/demo/import/{import_instance.id}")
+
+    return render(
+        request, "public_website/demo/import/select.html", {"form": DemoImportForm}
+    )
+
+
+@login_required_message()
+def demo_import_index_view(request, id):
+    import_instance = request.user.imports.get(pk=id)
+    return render(
+        request,
+        "public_website/demo/import/index.html",
+        {
+            "import": import_instance,
+            "items": import_instance.items.all(),
+            "data_headers": [
+                "PRENOM",
+                "NOM",
+                "TEL",
+                "EMAIL",
+                "COMMUNE",
+                "MATRICULE",
+                "QF",
+                "RSA",
+            ],
+        },
+    )
 
 
 def accessibility_view(request):
@@ -101,6 +156,14 @@ def etudiant_boursier_status_view(request):
         "inscription_data": inscription_data,
     }
     return render(request, "public_website/etudiant_boursier_status.html", context)
+
+
+def demo_imports_index_view(request):
+    return render(
+        request,
+        "public_website/demo/imports.html",
+        context={"imports": request.user.imports.all()},
+    )
 
 
 def legal_notice_view(request):

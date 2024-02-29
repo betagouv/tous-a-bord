@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+{% include "blocks/messages.html" %}
+
+<div class="fr-container fr-mt-6w">
+    <div class="fr-grid-row fr-grid-row--gutters">
+        <h1>Données importées {{import.created_at}}</h1>
+        <div class="fr-col-12">
+            <a class="fr-link" href="/demo/imports">Retrouver à la liste des imports</a>
+        </div>
+        <div class="fr-col-12">
+            <div class="fr-table" data-fr-js-table="true">
+                <table data-fr-js-table-element="true" class="fr-table__shadow fr-table__shadow--right">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            {% for label in data_headers %}
+                                <th scope="col"> {{ label }} </th>
+                            {% endfor %}
+                            <th scope="col">SMS</th>
+                            <th scope="col">EMAIL</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in items %}
+                            <tr>
+                                <td>{{item.id}}</td>
+                                {% for key in data_headers %}
+                                    <td>{{ item.value.fields | get_value:key }} </td>
+                                {% endfor %}
+                                    <td><form>
+                                        <input type="hidden" name="item" value="{ item.id}"/>
+                                        <input type="hidden" name="type" value="sms"/>
+                                        <input class="fr-btn" type="submit" value="Envoi SMS">
+                                    </form></td>
+                                    <td><form>
+                                        <input type="hidden" name="item" value="{ item.id}"/>
+                                        <input type="hidden" name="type" value="email"/>
+                                        <input class="fr-btn" type="submit" value="Envoi Email">
+                                    </form></td>
+
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

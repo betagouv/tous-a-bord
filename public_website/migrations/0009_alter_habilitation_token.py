@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('public_website', '0008_apicall_habilitation'),
+        ("public_website", "0008_apicall_habilitation"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='habilitation',
-            name='token',
+            model_name="habilitation",
+            name="token",
             field=models.TextField(),
         ),
     ]

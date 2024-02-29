@@ -6,14 +6,14 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('public_website', '0009_alter_habilitation_token'),
+        ("public_website", "0009_alter_habilitation_token"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='habilitation',
-            name='server',
-            field=models.TextField(default='https://particulier-test.api.gouv.fr'),
+            model_name="habilitation",
+            name="server",
+            field=models.TextField(default="https://particulier-test.api.gouv.fr"),
             preserve_default=False,
         ),
     ]
