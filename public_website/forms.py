@@ -1,5 +1,6 @@
 from django import forms
 
+from public_website.models import Item
 from public_website.utils.grist import get_communes
 
 
@@ -29,3 +30,10 @@ class DemoImportForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["commune"].choices = get_values()
+
+
+class DemoNotificationForm(forms.Form):
+    channel = forms.ChoiceField(
+        choices=[("sms", "sms"), ("email", "email")], required=True
+    )
+    item = forms.ModelChoiceField(queryset=Item.objects)

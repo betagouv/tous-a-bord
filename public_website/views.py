@@ -9,10 +9,12 @@ from public_website.decorators import (
 )
 from public_website.forms import (
     DemoImportForm,
+    DemoNotificationForm,
     InscritPoleEmploiForm,
     StatutEtudiantBoursierForm,
 )
 from public_website.models import APICall, Habilitation, Import, Item
+from public_website.utils import email_provider, sms_provider
 from public_website.utils.grist import build_dataset
 
 
@@ -32,7 +34,6 @@ def demo_view(request):
 
 @login_required_message()
 def demo_import_select_view(request):
-
     if request.method == "POST":
         form = DemoImportForm(request.POST)
         if not form.is_valid():
@@ -53,6 +54,23 @@ def demo_import_select_view(request):
 
 @login_required_message()
 def demo_import_index_view(request, id):
+    if request.method == "POST":
+        form = DemoNotificationForm(request.POST)
+        if not form.is_valid():
+            messages.warning(request, message="BUG!")
+        elif form.cleaned_data["item"].import_instance.user != request.user:
+            messages.warning(request, message="Hacking?!?")
+        else:
+            data = form.cleaned_data["item"].value["fields"]
+            if form.cleaned_data["channel"] == "sms":
+                sms_provider.send_notification_sms(data["TEL"])
+                messages.success(request, message=f"SMS envoyé au {data['TEL']} !")
+            else:
+                name = f"{data['PRENOM']} {data['NOM']}"
+                email = data["EMAIL"]
+                email_provider.send_notification_email(email, name)
+                messages.success(request, message=f"EMAIL envoyé à {name} <{email}> !")
+
     import_instance = request.user.imports.get(pk=id)
     return render(
         request,
