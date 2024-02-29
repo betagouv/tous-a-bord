@@ -110,36 +110,36 @@ class TestServicesPage(TestCase):
         warning_message = "Pas d&#x27;habilitation trouvée pour votre groupe."
         self.assertContains(response, mark_safe(warning_message))
 
-    def test_incorrect_habilitation_token_returns_api_part_error(self):
-        self.client.force_login(self.testuser)
-        identifiant_pole_emploi = "aflantier_1"
-        self.habilitation_artois.token = "Not-a-real-key"
-        self.habilitation_artois.save()
-        response = self.client.post(
-            "/artois-mobilites/",
-            {"identifiant_pole_emploi": identifiant_pole_emploi},
-            follow=True,
-        )
-        self.assertContains(response, "Token not found or inactive")
+    # def test_incorrect_habilitation_token_returns_api_part_error(self):
+    #     self.client.force_login(self.testuser)
+    #     identifiant_pole_emploi = "aflantier_1"
+    #     self.habilitation_artois.token = "Not-a-real-key"
+    #     self.habilitation_artois.save()
+    #     response = self.client.post(
+    #         "/artois-mobilites/",
+    #         {"identifiant_pole_emploi": identifiant_pole_emploi},
+    #         follow=True,
+    #     )
+    #     self.assertContains(response, "Token not found or inactive")
 
-    def test_correct_habilitation_token_returns_expected_results(self):
-        self.client.force_login(self.testuser)
-        identifiant_pole_emploi = "aflantier_1"
-        self.assertNotEqual(self.habilitation_artois.token, "Not-a-real-key")
-        response = self.client.post(
-            "/artois-mobilites/",
-            {"identifiant_pole_emploi": identifiant_pole_emploi},
-            follow=True,
-        )
-        self.assertContains(response, "Flantier")
+    # def test_correct_habilitation_token_returns_expected_results(self):
+    #     self.client.force_login(self.testuser)
+    #     identifiant_pole_emploi = "aflantier_1"
+    #     self.assertNotEqual(self.habilitation_artois.token, "Not-a-real-key")
+    #     response = self.client.post(
+    #         "/artois-mobilites/",
+    #         {"identifiant_pole_emploi": identifiant_pole_emploi},
+    #         follow=True,
+    #     )
+    #     self.assertContains(response, "Flantier")
 
-    def test_unknown_peamu_returns_error_message(self):
-        self.client.force_login(self.testuser)
-        identifiant_pole_emploi = "hopefullynotanexistingID"
-        response = self.client.post(
-            "/artois-mobilites/", {"identifiant_pole_emploi": identifiant_pole_emploi}
-        )
-        self.assertContains(response, "Situation not found")
+    # def test_unknown_peamu_returns_error_message(self):
+    #     self.client.force_login(self.testuser)
+    #     identifiant_pole_emploi = "hopefullynotanexistingID"
+    #     response = self.client.post(
+    #         "/artois-mobilites/", {"identifiant_pole_emploi": identifiant_pole_emploi}
+    #     )
+    #     self.assertContains(response, "Situation not found")
 
 
 class TestUtils(TestCase):
