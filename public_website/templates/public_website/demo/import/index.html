@@ -30,14 +30,16 @@
                                 {% for key in data_headers %}
                                     <td>{{ item.value.fields | get_value:key }} </td>
                                 {% endfor %}
-                                    <td><form>
-                                        <input type="hidden" name="item" value="{ item.id}"/>
-                                        <input type="hidden" name="type" value="sms"/>
+                                    <td><form action="" method="POST">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="item" value="{{item.id}}"/>
+                                        <input type="hidden" name="channel" value="sms"/>
                                         <input class="fr-btn" type="submit" value="Envoi SMS">
                                     </form></td>
-                                    <td><form>
-                                        <input type="hidden" name="item" value="{ item.id}"/>
-                                        <input type="hidden" name="type" value="email"/>
+                                    <td><form action="" method="POST">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="item" value="{{item.id}}"/>
+                                        <input type="hidden" name="channel" value="email"/>
                                         <input class="fr-btn" type="submit" value="Envoi Email">
                                     </form></td>
 
