@@ -10,9 +10,10 @@ urlpatterns = [
     path("accessibilite/", views.accessibility_view, name="accessibilite"),
     path("artois-mobilites/", views.pole_emploi_status_view, name="artois-mobilites"),
     path("demo/", views.demo_view, name="demo"),
+    path("demo/export/select", views.demo_export_select_view, name="demo/import"),
+    path("demo/import", views.demo_import_index_view),
     path("demo/imports/", views.demo_imports_index_view, name="demo/imports"),
-    path("demo/import/select", views.demo_import_select_view, name="demo/import"),
-    path("demo/import/<int:id>/", views.demo_import_index_view),
+    path("demo/import/<int:id>/", views.demo_import_item_view),
     path(
         "brest-metropole/", views.etudiant_boursier_status_view, name="brest-metropole"
     ),

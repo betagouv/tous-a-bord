@@ -8,7 +8,7 @@ from public_website.decorators import (
     login_required_message,
 )
 from public_website.forms import (
-    DemoImportForm,
+    DemoExportForm,
     DemoNotificationForm,
     InscritPoleEmploiForm,
     StatutEtudiantBoursierForm,
@@ -33,9 +33,9 @@ def demo_view(request):
 
 
 @login_required_message()
-def demo_import_select_view(request):
+def demo_export_select_view(request):
     if request.method == "POST":
-        form = DemoImportForm(request.POST)
+        form = DemoExportForm(request.POST)
         if not form.is_valid():
             messages.warning(request, message="La commune n'a pas été renseignée.")
         else:
@@ -48,12 +48,17 @@ def demo_import_select_view(request):
                 return redirect(f"/demo/import/{import_instance.id}")
 
     return render(
-        request, "public_website/demo/import/select.html", {"form": DemoImportForm}
+        request, "public_website/demo/export/select.html", {"form": DemoExportForm}
     )
 
 
 @login_required_message()
-def demo_import_index_view(request, id):
+def demo_import_index_view(request):
+    return render(request, "public_website/demo/index.html", {})
+
+
+@login_required_message()
+def demo_import_item_view(request, id):
     if request.method == "POST":
         form = DemoNotificationForm(request.POST)
         if not form.is_valid():
@@ -74,7 +79,7 @@ def demo_import_index_view(request, id):
     import_instance = request.user.imports.get(pk=id)
     return render(
         request,
-        "public_website/demo/import/index.html",
+        "public_website/demo/import/item.html",
         {
             "import": import_instance,
             "items": import_instance.items.all(),

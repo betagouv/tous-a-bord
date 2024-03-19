@@ -24,8 +24,8 @@ def get_values():
     return [(c["fields"]["COMMUNE"], get_label(c)) for c in data["records"]]
 
 
-class DemoImportForm(forms.Form):
-    commune = forms.ChoiceField(choices=(), label="Commune à importer", required=True)
+class DemoExportForm(forms.Form):
+    commune = forms.ChoiceField(choices=(), label="Commune à exporter", required=True)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
