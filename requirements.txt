@@ -5,6 +5,7 @@ pre-commit==2.20.0
 flake8==5.0.4
 black==22.8.0
 isort==5.13.2
+pandas==2.2.1
 psycopg2-binary==2.9.5
 mozilla-django-oidc==3.0.0
 django-referrer-policy==1.0

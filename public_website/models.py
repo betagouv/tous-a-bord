@@ -49,6 +49,11 @@ class APICall(models.Model):
         super(APICall, self).save(*args, **kwargs)
 
 
+class Export(models.Model):
+    created_at = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="exports")
+
+
 class Import(models.Model):
     created_at = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="imports")

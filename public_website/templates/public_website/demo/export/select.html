@@ -19,7 +19,6 @@
                     <div class="fr-select-group">
                         <label class="fr-label" for="commune">
                             {{ form.fields.commune.label }}
-                            <span class="fr-hint-text" id="commune-desc-hint">Texte de description additionnel</span>
                         </label>
                         <select class="fr-select" id="commune" name="commune">
                             {% for value, label in form.fields.commune.choices %}
@@ -28,7 +27,7 @@
                         </select>
                     </div>
                 </div>
-                <input class="fr-btn" type="submit" value="Importer">
+                <input class="fr-btn" type="submit" value="Exporter">
             </form>
         </div>
     </div>
