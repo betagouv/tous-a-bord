@@ -28,7 +28,7 @@
                             <tr>
                                 <td>{{item.id}}</td>
                                 {% for key in data_headers %}
-                                    <td>{{ item.value.fields | get_value:key }} </td>
+                                    <td>{{ item.value | get_value:key }} </td>
                                 {% endfor %}
                                     <td><form action="" method="POST">
                                         {% csrf_token %}

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+{% include "blocks/messages.html" %}
+
+<div class="fr-container fr-mt-6w">
+    <div class="fr-grid-row fr-grid-row--gutters">
+        <div class="fr-col-12">
+            <h1>Bienvenu·e dans l'espace de démonstration !</h1>
+        </div>
+        <div class="fr-col-12">
+            <a class="fr-link" href="/demo">Retrouver à l'accueil de démo</a>
+        </div>
+        <div class="fr-col-12">
+            <form action="" method="POST">
+                {% csrf_token %}
+                <input class="fr-btn" type="submit" value="Importer">
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

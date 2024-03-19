@@ -1,3 +1,7 @@
+import zipfile
+from tempfile import NamedTemporaryFile
+
+import pandas as pd
 from django.contrib import messages
 from django.contrib.auth.models import Group
 from django.db import transaction
@@ -13,9 +17,9 @@ from public_website.forms import (
     InscritPoleEmploiForm,
     StatutEtudiantBoursierForm,
 )
-from public_website.models import APICall, Habilitation, Import, Item
-from public_website.utils import email_provider, sms_provider
-from public_website.utils.grist import build_dataset
+from public_website.models import APICall, Export, Habilitation, Import, Item
+from public_website.utils import email_provider, hubee, sms_provider
+from public_website.utils.grist import build_csv
 
 
 def index_view(request):
@@ -39,13 +43,27 @@ def demo_export_select_view(request):
         if not form.is_valid():
             messages.warning(request, message="La commune n'a pas été renseignée.")
         else:
-            with transaction.atomic():
-                import_instance = Import(user=request.user)
-                import_instance.save()
-                for item_data in build_dataset(form.cleaned_data["commune"]):
-                    i = Item(import_instance=import_instance, value=item_data)
-                    i.save()
-                return redirect(f"/demo/import/{import_instance.id}")
+            data = build_csv(form.cleaned_data["commune"])
+            with NamedTemporaryFile("w") as csv:
+                csv.write(data)
+                csv.flush()
+
+                with NamedTemporaryFile(
+                    prefix="archive_", suffix=".zip"
+                ) as archive_fid:
+                    with zipfile.ZipFile(archive_fid, "w") as archive:
+                        archive.write(csv.name, "data.csv")
+                    archive_fid.flush()
+
+                    hubee_token = hubee.get_token("OSL")
+                    company_register, branch_code = "24670048800017", "67482"
+                    hubee.send(
+                        company_register, branch_code, archive_fid.name, hubee_token
+                    )
+                    export_instance = Export(user=request.user)
+                    export_instance.save()
+            messages.success(request, message="Données envoyées via HubEE")
+            return redirect("/demo")
 
     return render(
         request, "public_website/demo/export/select.html", {"form": DemoExportForm}
@@ -54,7 +72,63 @@ def demo_export_select_view(request):
 
 @login_required_message()
 def demo_import_index_view(request):
-    return render(request, "public_website/demo/index.html", {})
+    if request.method == "POST":
+
+        hubee_token = hubee.get_token("SI")
+        company_register = "18000000000000"
+        notifications = hubee.get_notifications(hubee_token)
+        interesting_notifications = [
+            n
+            for n in notifications
+            if n["transmitter"]["companyRegister"] == company_register
+        ]
+
+        for n in interesting_notifications:
+            case = hubee.get_case(n["caseId"], hubee_token)
+            if case["externalId"] != "DEMO_TAB_case":
+                continue
+            for attachment in case["attachments"]:
+                with NamedTemporaryFile(
+                    prefix="archive_", suffix=".zip"
+                ) as archive_fid:
+                    attachment_data = hubee.get_attachment(
+                        case["id"], attachment["id"], hubee_token
+                    )
+                    archive_fid.write(attachment_data.content)
+                    archive_fid.flush()
+
+                    with zipfile.ZipFile(archive_fid, "r") as archive:
+                        for file in archive.infolist():
+                            with archive.open(file.filename) as data:
+                                df = pd.read_csv(data, dtype="str")
+                                with transaction.atomic():
+                                    import_instance = Import(user=request.user)
+                                    import_instance.save()
+                                    import json
+
+                                    for i in df.index:
+                                        item = Item(
+                                            import_instance=import_instance,
+                                            value=json.loads(df.loc[i].to_json()),
+                                        )
+                                        item.save()
+
+                                    messages.success(
+                                        request,
+                                        message="Données récupérées depuis HubEE",
+                                    )
+
+                                    hubee.patch_case(
+                                        n["caseId"], {"status": "DONE"}, hubee_token
+                                    )
+                                    hubee.delete_notification(n["id"], hubee_token)
+
+                                    return redirect(
+                                        f"/demo/import/{import_instance.id}"
+                                    )
+
+        messages.warning(request, message="Pas de donnée à récupérer depuis HubEE")
+    return render(request, "public_website/demo/import/index.html", {})
 
 
 @login_required_message()
@@ -66,7 +140,7 @@ def demo_import_item_view(request, id):
         elif form.cleaned_data["item"].import_instance.user != request.user:
             messages.warning(request, message="Hacking?!?")
         else:
-            data = form.cleaned_data["item"].value["fields"]
+            data = form.cleaned_data["item"].value
             if form.cleaned_data["channel"] == "sms":
                 sms_provider.send_notification_sms(data["TEL"])
                 messages.success(request, message=f"SMS envoyé au {data['TEL']} !")
@@ -84,6 +158,7 @@ def demo_import_item_view(request, id):
             "import": import_instance,
             "items": import_instance.items.all(),
             "data_headers": [
+                "ID",
                 "PRENOM",
                 "NOM",
                 "TEL",
